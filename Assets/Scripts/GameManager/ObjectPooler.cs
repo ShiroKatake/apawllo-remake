@@ -57,15 +57,9 @@ public class ObjectPooler : MonoBehaviour
 
 		if (poolDictionary[tag].Count == 0)
 		{
-			foreach (Pool pool in pools)
-			{
-				if (pool.tag == tag)
-				{
-					GameObject obj = Instantiate(pool.objectToPool);
-					obj.SetActive(false);
-					poolDictionary[tag].Enqueue(obj);
-				}
-			}
+			GameObject obj = Instantiate(pools[(int)tag].objectToPool);
+			obj.SetActive(false);
+			poolDictionary[tag].Enqueue(obj);
 		}
 
 		GameObject objectToSpawn = poolDictionary[tag].Dequeue();
