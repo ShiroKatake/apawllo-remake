@@ -19,6 +19,7 @@ public class Bullet : MonoBehaviour
 		if (timePassed >= lifetime)
 		{
 			ObjectPooler.Instance.ReturnToPool(pool, gameObject);
+			timePassed = 0f;
 		}
 	}
 }
