@@ -15,6 +15,12 @@ public class ObjectPooler : MonoBehaviour
 	[SerializeField] private List<Pool> pools;
 
 	public Dictionary<string, Queue<GameObject>> poolDictionary;
+	public static ObjectPooler Instance { get; private set; }
+
+	private void Awake()
+	{
+		Instance = this;
+	}
 
 	private void Start()
 	{
