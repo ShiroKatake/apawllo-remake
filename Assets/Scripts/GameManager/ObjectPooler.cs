@@ -40,7 +40,6 @@ public class ObjectPooler : MonoBehaviour
 	/// <summary>
 	/// Pseudo singleton.
 	/// </summary>
-
 	private void Awake()
 	{
 		Instance = this;
@@ -50,7 +49,6 @@ public class ObjectPooler : MonoBehaviour
 	/// Initialize pools by instantiating their assigned
 	/// objects and adding them to the dictionary.
 	/// </summary>
-
 	private void Start()
 	{
 		poolDictionary = new Dictionary<Pools, Queue<GameObject>>();
@@ -76,8 +74,7 @@ public class ObjectPooler : MonoBehaviour
 	/// <param name="tag">Which pool to spawn from</param>
 	/// <param name="position">Position to spawn at</param>
 	/// <param name="rotation">Rotation to spawn at</param>
-	/// <returns></returns>
-
+	/// <returns>The object spawned</returns>
 	public GameObject SpawnFromPool (Pools tag, Vector3 position, Quaternion rotation)
 	{
 		if (!poolDictionary.ContainsKey(tag))
@@ -106,8 +103,7 @@ public class ObjectPooler : MonoBehaviour
 	/// Return an object to a specified pool.
 	/// </summary>
 	/// <param name="tag">Which pool to return to</param>
-	/// <param name="objectToReturn">which object to return</param>
-	/// 
+	/// <param name="objectToReturn">which object to return</param>	
 	public void ReturnToPool(Pools tag, GameObject objectToReturn)
 	{
 		poolDictionary[tag].Enqueue(objectToReturn);
