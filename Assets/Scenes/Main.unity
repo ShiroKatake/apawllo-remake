@@ -455,7 +455,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
-  - tag: AB
-    prefab: {fileID: 2240714596347301559, guid: 4f1013365862fc2448485cbafea2707b,
+  - tag: 0
+    objectToPool: {fileID: 2240714596347301559, guid: 4f1013365862fc2448485cbafea2707b,
       type: 3}
-    size: 10
+    amountToPool: 10

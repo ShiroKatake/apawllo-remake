@@ -14,8 +14,8 @@ public class ObjectPooler : MonoBehaviour
 	public class Pool
 	{
 		public Pools tag;
-		public GameObject prefab;
-		public int size;
+		public GameObject objectToPool;
+		public int amountToPool;
 	}
 
 	[SerializeField] private List<Pool> pools;
@@ -36,9 +36,9 @@ public class ObjectPooler : MonoBehaviour
 		{
 			Queue<GameObject> objectPool = new Queue<GameObject>();
 
-			for (int i = 0; i < pool.size; i++)
+			for (int i = 0; i < pool.amountToPool; i++)
 			{
-				GameObject obj = Instantiate(pool.prefab);
+				GameObject obj = Instantiate(pool.objectToPool);
 				obj.SetActive(false);
 				objectPool.Enqueue(obj);
 			}
@@ -53,6 +53,19 @@ public class ObjectPooler : MonoBehaviour
 		{
 			Debug.LogWarning("Pool with tag" + tag + "doesn't exist.");
 			return null;
+		}
+
+		if (poolDictionary[tag].Count == 0)
+		{
+			foreach (Pool pool in pools)
+			{
+				if (pool.tag == tag)
+				{
+					GameObject obj = Instantiate(pool.objectToPool);
+					obj.SetActive(false);
+					poolDictionary[tag].Enqueue(obj);
+				}
+			}
 		}
 
 		GameObject objectToSpawn = poolDictionary[tag].Dequeue();
