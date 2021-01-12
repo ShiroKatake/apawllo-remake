@@ -25,12 +25,12 @@ public class ObjectPooler : MonoBehaviour
 		public int amountToPool;
 	}
 
-	#region Private Fields
-	private Dictionary<Pools, Queue<GameObject>> poolDictionary;
-	#endregion
-
 	#region Serialized Fields
 	[SerializeField] private List<Pool> pools;
+	#endregion
+
+	#region Private Fields
+	private Dictionary<Pools, Queue<GameObject>> poolDictionary;
 	#endregion
 
 	#region Public Properties
