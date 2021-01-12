@@ -22,7 +22,7 @@ public class PlayerController : MonoBehaviour
 	public void OnShoot(InputAction.CallbackContext context)
 	{
 		Debug.Log(context.phase.ToString());
-		ObjectPooler.Instance.SpawnFromPool("AB", transform.position, transform.rotation);
+		ObjectPooler.Instance.SpawnFromPool(Pools.ApawlloBullet, transform.position, transform.rotation);
 	}
 
 	private void Update()

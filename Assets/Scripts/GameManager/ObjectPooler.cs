@@ -2,19 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Pools
+{
+	ApawlloBullet,
+	SquireBullet
+}
+
 public class ObjectPooler : MonoBehaviour
 {
 	[System.Serializable]
 	public class Pool
 	{
-		public string tag;
+		public Pools tag;
 		public GameObject prefab;
 		public int size;
 	}
 
 	[SerializeField] private List<Pool> pools;
 
-	public Dictionary<string, Queue<GameObject>> poolDictionary;
+	public Dictionary<Pools, Queue<GameObject>> poolDictionary;
 	public static ObjectPooler Instance { get; private set; }
 
 	private void Awake()
@@ -24,7 +30,7 @@ public class ObjectPooler : MonoBehaviour
 
 	private void Start()
 	{
-		poolDictionary = new Dictionary<string, Queue<GameObject>>();
+		poolDictionary = new Dictionary<Pools, Queue<GameObject>>();
 
 		foreach (Pool pool in pools)
 		{
@@ -41,7 +47,7 @@ public class ObjectPooler : MonoBehaviour
 		}
 	}
 
-	public GameObject SpawnFromPool (string tag, Vector3 position, Quaternion rotation)
+	public GameObject SpawnFromPool (Pools tag, Vector3 position, Quaternion rotation)
 	{
 		if (!poolDictionary.ContainsKey(tag))
 		{
@@ -55,14 +61,12 @@ public class ObjectPooler : MonoBehaviour
 		objectToSpawn.transform.position = position;
 		objectToSpawn.transform.rotation = rotation;
 
-		poolDictionary[tag].Enqueue(objectToSpawn);
-
 		return objectToSpawn;
 	}
 
-	public void ReturnToPool(string tag, GameObject objectToReturn)
+	public void ReturnToPool(Pools tag, GameObject objectToReturn)
 	{
-		objectToReturn.SetActive(false);
 		poolDictionary[tag].Enqueue(objectToReturn);
+		objectToReturn.SetActive(false);
 	}
 }

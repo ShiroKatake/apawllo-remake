@@ -6,7 +6,7 @@ public class Bullet : MonoBehaviour
 {
 	[SerializeField] private float speed = 10f;
 	[SerializeField] private float lifetime = 10f;
-
+	[SerializeField] private Pools pool;
 	private float timePassed;
 
 	private void Update()
@@ -18,7 +18,7 @@ public class Bullet : MonoBehaviour
 		timePassed += Time.deltaTime;
 		if (timePassed >= lifetime)
 		{
-			ObjectPooler.Instance.ReturnToPool("AB", gameObject);
+			ObjectPooler.Instance.ReturnToPool(pool, gameObject);
 		}
 	}
 }
