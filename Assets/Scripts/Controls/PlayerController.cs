@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class InputManager : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
 	[SerializeField] private float movementSpeed = 10f;
 
@@ -22,7 +22,6 @@ public class InputManager : MonoBehaviour
 	public void OnShoot(InputAction.CallbackContext context)
 	{
 		Debug.Log(context.phase.ToString());
-		//shoot
 	}
 
 	private void Update()
