@@ -4,7 +4,6 @@ using UnityEngine;
 /// <summary>
 /// Tags for pools.
 /// </summary>
-
 public enum Pools
 {
 	ApawlloBullet,
@@ -14,7 +13,6 @@ public enum Pools
 /// <summary>
 /// A generic object pooler.
 /// </summary>
-
 public class ObjectPooler : MonoBehaviour
 {
 	[System.Serializable]
