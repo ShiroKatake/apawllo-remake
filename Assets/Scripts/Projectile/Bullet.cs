@@ -1,17 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Handles bullet movement and lifetime.
+/// </summary>
 public class Bullet : MonoBehaviour
 {
+	#region Serialized Fields
 	[SerializeField] private float speed = 10f;
 	[SerializeField] private float lifetime = 10f;
 	[SerializeField] private Pools pool;
-	private float timePassed;
+	#endregion
 
+	#region Private Fields
+	private float timePassed;
+	#endregion
+
+	/// <summary>
+	/// Moves the bullet.
+	/// Return the bullet to pool if lifetime exceeds amount specified.
+	/// </summary>
 	private void Update()
 	{
-
 		Vector2 m = transform.right * speed * Time.deltaTime;
 		transform.Translate(m, Space.World);
 
