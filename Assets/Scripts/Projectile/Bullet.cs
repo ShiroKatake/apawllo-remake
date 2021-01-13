@@ -6,6 +6,7 @@
 public class Bullet : MonoBehaviour
 {
 	#region Serialized Fields
+	[SerializeField] private int damage;
 	[SerializeField] private float speed = 10f;
 	[SerializeField] private float lifetime = 10f;
 	[SerializeField] private Pools pool;
@@ -14,6 +15,10 @@ public class Bullet : MonoBehaviour
 	#region Private Fields
 	private float timePassed;
 	#endregion
+
+	public int Damage {
+		get => damage;
+	}
 
 	/// <summary>
 	/// Moves the bullet.
