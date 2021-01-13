@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 	#region Private Fields
 	private GameControls controls;
 	private Vector2 move;
+	private Shoot shoot;
 	#endregion
 
 	/// <summary>
@@ -21,11 +22,14 @@ public class PlayerController : MonoBehaviour
     {
 		controls = new GameControls();
 
-		controls.Gameplay.Shoot.performed += context => OnShoot();
+		shoot = GetComponent<Shoot>();
+
+		controls.Gameplay.Shoot.performed += context => shoot.StartTimer();
+		controls.Gameplay.Shoot.canceled += context => shoot.OnShoot();
 
 		controls.Gameplay.Move.performed += context => move = context.ReadValue<Vector2>();
 		controls.Gameplay.Move.canceled += context => move = Vector2.zero;
-    }
+	}
 
 	/// <summary>
 	/// Enables the controls when the controller script is enabled.
@@ -33,14 +37,6 @@ public class PlayerController : MonoBehaviour
 	private void OnEnable()
 	{
 		controls.Gameplay.Enable();
-	}
-
-	/// <summary>
-	/// Spawns a bullet when the Shoot event is triggered.
-	/// </summary>
-	public void OnShoot()
-	{
-		ObjectPooler.Instance.SpawnFromPool(Pools.ApawlloBullet, transform.position, transform.rotation);
 	}
 
 	/// <summary>
