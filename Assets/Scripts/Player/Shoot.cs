@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Shoots bullets.
+/// </summary>
 public class Shoot : MonoBehaviour
 {
 	[SerializeField] private Transform firePoint;
@@ -11,17 +14,27 @@ public class Shoot : MonoBehaviour
 	private float timePassed;
 	private bool isTiming = false;
 
-    void Update()
+	/// <summary>
+	/// Keeps track of time as "Shoot" button is held down.
+	/// </summary>
+	void Update()
 	{
 		if (isTiming)
 			timePassed += Time.deltaTime;
 	}
 
+	/// <summary>
+	/// Initiates time counting when "Shoot" button is pressed.
+	/// </summary>
 	public void StartTimer()
 	{
 		isTiming = true;
 	}
 
+	/// <summary>
+	/// Fires a bullet from the pool depending on how long "Shoot" was held down for 
+	/// (currently only have 1 prefab so all 3 types use the same prefab).
+	/// </summary>
 	public void OnShoot()
 	{
 		Pools bulletPool = Pools.ApawlloBullet;
