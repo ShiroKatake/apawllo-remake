@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Controls the Ammo UI.
+/// </summary>
 public class UI_Ammo : MonoBehaviour
 {
     [SerializeField] private int bulletCount;
@@ -11,6 +14,9 @@ public class UI_Ammo : MonoBehaviour
 
     const int x = 19, y = 20;
 
+    /// <summary>
+    /// Updates UI whenever bullet count is changed.
+    /// </summary>
     private int BulletCount { 
         get => bulletCount;
         set
@@ -23,17 +29,12 @@ public class UI_Ammo : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-        Vector2 size = new Vector2(bulletCount * x, y);
-        ammoX.rectTransform.sizeDelta = size;
-        fill.rectTransform.sizeDelta = size;
+        SetAmmoSize();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Changes tiling for the ammo bar.
+    /// </summary>
     private void SetAmmoSize()
 	{
         Vector2 size = new Vector2(bulletCount * x, y);
