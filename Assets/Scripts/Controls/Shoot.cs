@@ -5,33 +5,28 @@ public class Shoot : MonoBehaviour
 	[SerializeField] private Transform firePoint;
 
 	[Header("Charge Times")]
-	[SerializeField] private float normalCharge = 0f;
 	[SerializeField] private float mediumCharge = 1f;
 	[SerializeField] private float heavyCharge = 2f;
 
 	private float timePassed;
-	private bool isCounting = false;
+	private bool isTiming = false;
 
     void Update()
 	{
-		if (isCounting)
+		if (isTiming)
 			timePassed += Time.deltaTime;
 	}
 
 	public void StartTimer()
 	{
-		isCounting = true;
+		isTiming = true;
 	}
 
 	public void OnShoot()
 	{
 		Pools bulletPool = Pools.ApawlloBullet;
+		Debug.Log("Shooting normal charge.");
 
-		if (timePassed >= normalCharge && timePassed < mediumCharge)
-		{
-			bulletPool = Pools.ApawlloBullet;
-			Debug.Log("Shooting normal charge.");
-		}
 		if (timePassed >= mediumCharge && timePassed < heavyCharge)
 		{
 			bulletPool = Pools.ApawlloBullet;
@@ -45,6 +40,6 @@ public class Shoot : MonoBehaviour
 
 		ObjectPooler.Instance.SpawnFromPool(bulletPool, firePoint.position, firePoint.rotation);
 		timePassed = 0f;
-		isCounting = false;
+		isTiming = false;
 	}
 }
