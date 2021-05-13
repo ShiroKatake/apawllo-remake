@@ -4,17 +4,22 @@ using UnityEngine;
 
 public class Ammo : MonoBehaviour
 {
-	#region Serialized Fields
+    #region Serialized Fields
+    [Tooltip("Max ammo capacity.")]
     [SerializeField] private int maxBulletCount;
-    [SerializeField] private float currentBulletCount;
-    [SerializeField] private float rechargeTime;
-    [SerializeField] private float cooldownTime;
-	#endregion
 
-	#region Private Fields
+    [Tooltip("Time it takes to recharge to max ammo.")]
+    [SerializeField] private float rechargeTime;
+
+    [Tooltip("How long the player needs to wait after releasing the 'Shoot' button to start recharging ammo.")]
+    [SerializeField] private float rechargeWaitTime;
+    #endregion
+
+    #region Private Fields
+    private Timer cooldownTimer;
+    private float currentBulletCount;
     private bool canShoot;
     private bool canRefill;
-    private Timer cooldownTimer;
 	#endregion
 
 	public float BulletCount { get => currentBulletCount; set => currentBulletCount = value; }
@@ -27,20 +32,27 @@ public class Ammo : MonoBehaviour
         }
     }
 
-	private void Awake()
+    /// <summary>
+    /// Creates and initializes the recharge wait timer,
+    /// </summary>
+    private void Awake()
 	{
-        cooldownTimer = Timer.CreateComponent(gameObject, cooldownTime);
+        cooldownTimer = Timer.CreateComponent(gameObject, rechargeWaitTime);
 	}
 
-	// Start is called before the first frame update
-	private void Start()
+    /// <summary>
+    /// Initializes ammo attributes.
+    /// </summary>
+    private void Start()
     {
-        currentBulletCount = 0;
+        currentBulletCount = maxBulletCount;
         canShoot = true;
         canRefill = true;
     }
 
-    // Update is called once per frame
+    /// <summary>
+    /// Refills ammo and changes state for ammo usage accordingly.
+    /// </summary>
     private void Update()
     {
         if (currentBulletCount < 1)
@@ -58,11 +70,17 @@ public class Ammo : MonoBehaviour
             canShoot = true;
     }
 
+    /// <summary>
+    /// Increases maximum ammo capacity.
+    /// </summary>
     private void AddMaxBullet()
 	{
         maxBulletCount++;
 	}
 
+    /// <summary>
+    /// Starts the recharge wait timer when "Shoot" button is released.
+    /// </summary>
     public void StartCooldown()
 	{
         cooldownTimer.StartTimer();

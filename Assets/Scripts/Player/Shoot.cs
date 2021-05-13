@@ -6,12 +6,14 @@
 public class Shoot : MonoBehaviour
 {
 	#region Serialized Fields
+	[Header("Fire Point")]
 	[SerializeField] private Transform firePoint;
 
 	[Header("Charge Times")]
 	[SerializeField] private float mediumCharge = 1f;
 	[SerializeField] private float heavyCharge = 2f;
 
+	[Header("Bullet Prefab")]
 	[SerializeField] private Bullet normalBullet;
 	[SerializeField] private Bullet mediumBullet;
 	[SerializeField] private Bullet heavyBullet;
@@ -22,6 +24,10 @@ public class Shoot : MonoBehaviour
 	private Timer chargeTimer;
 	#endregion
 
+	/// <summary>
+	/// Creates and initializes the charge timer.
+	/// References ammo pool.
+	/// </summary>
 	private void Awake()
 	{
 		ammo = GetComponent<Ammo>();
@@ -37,7 +43,7 @@ public class Shoot : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Initiates time counting when "Shoot" button is pressed.
+	/// Starts charge timer when "Shoot" button is pressed.
 	/// </summary>
 	public void StartCharge()
 	{
@@ -47,8 +53,7 @@ public class Shoot : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Fires a bullet from the pool depending on how long "Shoot" was held down for 
-	/// (currently only have 1 prefab so all 3 types use the same prefab).
+	/// Fires a bullet from ammo pool.
 	/// </summary>
 	public void OnShoot()
 	{
@@ -60,6 +65,10 @@ public class Shoot : MonoBehaviour
 		chargeTimer.ResetTimer();
 	}
 
+	/// <summary>
+	/// Return a bullet type depending on how long "Shoot" was held down for,
+	/// (currently only have 1 prefab so all 3 types use the same prefab).
+	/// </summary>
 	private Bullet GetAmmo()
 	{
 		float timePassed = chargeTimer.TimePassed;
