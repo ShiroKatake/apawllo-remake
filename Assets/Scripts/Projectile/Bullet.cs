@@ -16,9 +16,8 @@ public class Bullet : MonoBehaviour
 	private float timePassed;
 	#endregion
 
-	public int Damage {
-		get => damage;
-	}
+	public int Damage { get => damage; }
+	public Pools BulletType { get => pool; }
 
 	/// <summary>
 	/// Moves the bullet.
