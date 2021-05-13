@@ -14,11 +14,14 @@ public class Ammo : MonoBehaviour
 
     [Tooltip("How long the player needs to wait after releasing the 'Shoot' button to start recharging ammo.")]
     [SerializeField] private float rechargeWaitTime;
+    
+    [ReadOnly]
+    [Tooltip("Current ammo count.")]
+    [SerializeField] private float currentBulletCount;
     #endregion
 
     #region Private Fields
     private Timer rechargeTimer;
-    private float currentBulletCount;
     private bool canShoot;
     private bool canRefill;
     #endregion

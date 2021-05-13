@@ -8,11 +8,14 @@ public class Timer : MonoBehaviour
     #region Serialized Fields
     [ReadOnly]
     [SerializeField] private string timerName;
-	#endregion
 
-	#region Private Fields
-	private float timeEnd;
-    private float time;
+    [ReadOnly]
+    [SerializeField] private float time;
+    #endregion
+
+    #region Private Fields
+    private float timeEnd;
+
     private bool isEndless;
     private bool isTiming;
     private bool timerFinished;
