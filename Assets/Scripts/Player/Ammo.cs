@@ -1,7 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Ammo management.
+/// </summary>
 public class Ammo : MonoBehaviour
 {
     #region Serialized Fields
@@ -20,9 +21,10 @@ public class Ammo : MonoBehaviour
     private float currentBulletCount;
     private bool canShoot;
     private bool canRefill;
-	#endregion
+    #endregion
 
-	public float BulletCount { get => currentBulletCount; set => currentBulletCount = value; }
+    #region Public Properties
+    public float BulletCount { get => currentBulletCount; set => currentBulletCount = value; }
     public bool CanShoot {
         get
         {
@@ -31,11 +33,12 @@ public class Ammo : MonoBehaviour
             return false;
         }
     }
+	#endregion
 
-    /// <summary>
-    /// Creates and initializes the recharge wait timer,
-    /// </summary>
-    private void Awake()
+	/// <summary>
+	/// Creates and initializes the recharge wait timer,
+	/// </summary>
+	private void Awake()
 	{
         rechargeTimer = Timer.CreateComponent(gameObject, rechargeWaitTime);
 	}

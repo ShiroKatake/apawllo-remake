@@ -26,8 +26,8 @@ public class UI_Ammo : MonoBehaviour
         }
     }
 
-	// Start is called before the first frame update
-	void Start()
+    // Start is called before the first frame update
+    private void Start()
     {
         SetAmmoSize();
     }
