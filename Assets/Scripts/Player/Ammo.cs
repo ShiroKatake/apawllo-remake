@@ -16,7 +16,7 @@ public class Ammo : MonoBehaviour
     #endregion
 
     #region Private Fields
-    private Timer cooldownTimer;
+    private Timer rechargeTimer;
     private float currentBulletCount;
     private bool canShoot;
     private bool canRefill;
@@ -37,7 +37,7 @@ public class Ammo : MonoBehaviour
     /// </summary>
     private void Awake()
 	{
-        cooldownTimer = Timer.CreateComponent(gameObject, rechargeWaitTime);
+        rechargeTimer = Timer.CreateComponent(gameObject, rechargeWaitTime);
 	}
 
     /// <summary>
@@ -57,6 +57,9 @@ public class Ammo : MonoBehaviour
     {
         if (currentBulletCount < 1)
             canShoot = false;
+
+        if (rechargeTimer.TimerFinished)
+            canRefill = true;
 
         if (canRefill)
         {
@@ -81,8 +84,10 @@ public class Ammo : MonoBehaviour
     /// <summary>
     /// Starts the recharge wait timer when "Shoot" button is released.
     /// </summary>
-    public void StartCooldown()
+    public void StartWaterTimer()
 	{
-        cooldownTimer.StartTimer();
+        if (canRefill)
+            canRefill = false;
+        rechargeTimer.StartTimer();
     }
 }
