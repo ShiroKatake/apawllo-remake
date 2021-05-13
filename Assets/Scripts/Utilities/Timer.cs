@@ -1,24 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+/// <summary>
+/// Timer Utility.
+/// </summary>
 public class Timer : MonoBehaviour
 {
+    #region Private Fields
     private float timeEnd;
     private float time;
     private bool isEndless;
     private bool isTiming;
     private bool timerFinished;
+	#endregion
 
+    #region Public Properties
 	public bool TimerFinished { get => timerFinished; }
     public float TimePassed { get => time; }
-	public static Timer CreateComponent(GameObject gameObject, float timeEnd)
+    #endregion
+
+    /// <summary>
+    /// Creates, attaches and initializes this as a component to a game object with a timer duration.
+    /// </summary>
+    /// <param name="gameObject">Game object to attach to as component.</param>
+    /// <param name="timeEnd">How long to time for.</param>
+    /// <returns></returns>
+    public static Timer CreateComponent(GameObject gameObject, float timeEnd)
 	{
         Timer timer = gameObject.AddComponent(typeof(Timer)) as Timer;
         timer.timeEnd = timeEnd;
         return timer;
 	}
 
+    /// <summary>
+    /// Creates, attaches and initializes this as a component to a game object as an endless timer.
+    /// </summary>
+    /// <param name="gameObject">Game object to attach to as component.</param>
+    /// <param name="isEndless">Whether this timer is endless.</param>
+    /// <returns></returns>
     public static Timer CreateComponent(GameObject gameObject, bool isEndless)
     {
         Timer timer = gameObject.AddComponent(typeof(Timer)) as Timer;
@@ -26,6 +44,9 @@ public class Timer : MonoBehaviour
         return timer;
     }
 
+    /// <summary>
+    /// Handles timing.
+    /// </summary>
     void Update()
     {
         if (!isTiming)
@@ -43,6 +64,9 @@ public class Timer : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Starts the timer.
+    /// </summary>
     public void StartTimer()
 	{
         ResetTimer();
@@ -54,6 +78,9 @@ public class Timer : MonoBehaviour
         timerFinished = false;
     }
 
+    /// <summary>
+    /// Resets the timer.
+    /// </summary>
     public void ResetTimer()
 	{
         if (isTiming)
