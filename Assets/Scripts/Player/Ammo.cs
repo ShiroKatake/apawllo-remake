@@ -7,13 +7,14 @@ public class Ammo : MonoBehaviour
 	#region Serialized Fields
     [SerializeField] private int maxBulletCount;
     [SerializeField] private float currentBulletCount;
-    [SerializeField] private float refillTime;
+    [SerializeField] private float rechargeTime;
+    [SerializeField] private float cooldownTime;
 	#endregion
 
 	#region Private Fields
-	private float time;
     private bool canShoot;
     private bool canRefill;
+    private Timer cooldownTimer;
 	#endregion
 
 	public float BulletCount { get => currentBulletCount; set => currentBulletCount = value; }
@@ -26,11 +27,17 @@ public class Ammo : MonoBehaviour
         }
     }
 
-    // Start is called before the first frame update
-    private void Start()
+	private void Awake()
+	{
+        cooldownTimer = Timer.CreateComponent(gameObject, cooldownTime);
+	}
+
+	// Start is called before the first frame update
+	private void Start()
     {
         currentBulletCount = 0;
         canShoot = true;
+        canRefill = true;
     }
 
     // Update is called once per frame
@@ -42,7 +49,7 @@ public class Ammo : MonoBehaviour
         if (canRefill)
         {
             if (currentBulletCount < maxBulletCount)
-                currentBulletCount += maxBulletCount / refillTime * Time.deltaTime;
+                currentBulletCount += maxBulletCount / rechargeTime * Time.deltaTime;
             else
                 currentBulletCount = maxBulletCount;
         }
@@ -56,8 +63,8 @@ public class Ammo : MonoBehaviour
         maxBulletCount++;
 	}
 
-    public void Cooldown()
+    public void StartCooldown()
 	{
-
-	}
+        cooldownTimer.StartTimer();
+    }
 }
