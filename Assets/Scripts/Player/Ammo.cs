@@ -15,6 +15,7 @@ public class Ammo : MonoBehaviour
     [Tooltip("How long the player needs to wait after releasing the 'Shoot' button to start recharging ammo.")]
     [SerializeField] private float rechargeWaitTime;
     
+    [Header("Game Events")]
     [ReadOnly]
     [Tooltip("Current ammo count.")]
     [SerializeField] private float currentBulletCount;
@@ -24,6 +25,9 @@ public class Ammo : MonoBehaviour
 
     [Tooltip("Game event for when ammo capcity gets updated.")]
     [SerializeField] private GameEvent onMaxAmmoUpdate;
+
+    [Tooltip("Game event for when player is able to shoot or not.")]
+    [SerializeField] private GameEvent onAmmoStateChange;
     #endregion
 
     #region Private Fields
@@ -42,12 +46,18 @@ public class Ammo : MonoBehaviour
             onAmmoUpdate?.Invoke();
         }
     }
+
     public bool CanShoot {
         get
         {
             if (canShoot)
                 return CurrentBulletCount >= 1;
             return false;
+        }
+        set
+		{
+            canShoot = value;
+            onAmmoStateChange?.Invoke();
         }
     }
 	#endregion
@@ -66,7 +76,7 @@ public class Ammo : MonoBehaviour
     private void Start()
     {
         CurrentBulletCount = maxBulletCount;
-        canShoot = true;
+        CanShoot = true;
         canRefill = true;
         onMaxAmmoUpdate?.Invoke();
     }
@@ -77,7 +87,7 @@ public class Ammo : MonoBehaviour
     private void Update()
     {
         if (CurrentBulletCount < 1)
-            canShoot = false;
+            CanShoot = false;
 
         if (rechargeTimer.TimerFinished)
             canRefill = true;
@@ -91,7 +101,7 @@ public class Ammo : MonoBehaviour
         }
 
         if (CurrentBulletCount == maxBulletCount)
-            canShoot = true;
+            CanShoot = true;
     }
 
     /// <summary>
@@ -108,7 +118,7 @@ public class Ammo : MonoBehaviour
     /// </summary>
     public void StartWaitTimer()
 	{
-        if (canShoot && canRefill)
+        if (CanShoot && canRefill)
             canRefill = false;
         rechargeTimer.StartTimer();
     }

@@ -8,16 +8,23 @@ using UnityEngine.UI;
 /// </summary>
 public class UI_Ammo : MonoBehaviour
 {
+    #region Serialized Fields
     [SerializeField] private int bulletCount;
     [SerializeField] private Image ammoX;
     [SerializeField] private Image fill;
+    [SerializeField] private Color disabledColor;
+	#endregion
 
-    const int x = 19, y = 20;
+    #region Private Fields
+	const int X = 19, Y = 20;
     private Ammo playerAmmo;
-    /// <summary>
-    /// Updates UI whenever bullet count is changed.
-    /// </summary>
-    private int BulletCount { 
+    private Color enabledColor;
+	#endregion
+
+	/// <summary>
+	/// Updates UI whenever bullet count is changed.
+	/// </summary>
+	private int BulletCount { 
         get => bulletCount;
         set
         {
@@ -26,6 +33,9 @@ public class UI_Ammo : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Gets ammo reference from player object.
+    /// </summary>
     // Start is called before the first frame update
     private void Awake()
     {
@@ -33,20 +43,36 @@ public class UI_Ammo : MonoBehaviour
     }
 
     /// <summary>
-    /// Changes tiling for the ammo bar.
+    /// Initializes fill color.
     /// </summary>
-    public void SetAmmoMaxSize()
+    private void Start()
 	{
-        Vector2 size = new Vector2(playerAmmo.MaxBulletCount * x, y);
+        enabledColor = fill.color;
+    }
+
+	/// <summary>
+	/// Changes max ammo count.
+	/// </summary>
+	public void SetAmmoMaxCount()
+	{
+        Vector2 size = new Vector2(playerAmmo.MaxBulletCount * X, Y);
         ammoX.rectTransform.sizeDelta = size;
         fill.rectTransform.sizeDelta = size;
     }
 
     /// <summary>
-    /// Changes tiling for the ammo bar.
+    /// Changes ammo count.
     /// </summary>
     public void SetAmmoCount()
 	{
         fill.fillAmount = playerAmmo.CurrentBulletCount / playerAmmo.MaxBulletCount;
+    }
+
+    /// <summary>
+    /// Changes ammo state.
+    /// </summary>
+    public void SetAmmoState()
+	{
+        fill.color = playerAmmo.CanShoot ? enabledColor : disabledColor;
     }
 }
