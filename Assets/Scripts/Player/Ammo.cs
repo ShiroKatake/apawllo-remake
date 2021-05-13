@@ -18,6 +18,12 @@ public class Ammo : MonoBehaviour
     [ReadOnly]
     [Tooltip("Current ammo count.")]
     [SerializeField] private float currentBulletCount;
+
+    [Tooltip("Game event for when ammo count gets updated.")]
+    [SerializeField] private GameEvent onAmmoUpdate;
+
+    [Tooltip("Game event for when ammo capcity gets updated.")]
+    [SerializeField] private GameEvent onMaxAmmoUpdate;
     #endregion
 
     #region Private Fields
@@ -27,12 +33,20 @@ public class Ammo : MonoBehaviour
     #endregion
 
     #region Public Properties
-    public float BulletCount { get => currentBulletCount; set => currentBulletCount = value; }
+    public int MaxBulletCount { get => maxBulletCount; set => maxBulletCount = value; }
+    public float CurrentBulletCount {
+        get => currentBulletCount;
+        set
+        {
+            currentBulletCount = value;
+            onAmmoUpdate?.Invoke();
+        }
+    }
     public bool CanShoot {
         get
         {
             if (canShoot)
-                return currentBulletCount >= 1;
+                return CurrentBulletCount >= 1;
             return false;
         }
     }
@@ -51,9 +65,10 @@ public class Ammo : MonoBehaviour
     /// </summary>
     private void Start()
     {
-        currentBulletCount = maxBulletCount;
+        CurrentBulletCount = maxBulletCount;
         canShoot = true;
         canRefill = true;
+        onMaxAmmoUpdate?.Invoke();
     }
 
     /// <summary>
@@ -61,7 +76,7 @@ public class Ammo : MonoBehaviour
     /// </summary>
     private void Update()
     {
-        if (currentBulletCount < 1)
+        if (CurrentBulletCount < 1)
             canShoot = false;
 
         if (rechargeTimer.TimerFinished)
@@ -69,13 +84,13 @@ public class Ammo : MonoBehaviour
 
         if (canRefill)
         {
-            if (currentBulletCount < maxBulletCount)
-                currentBulletCount += maxBulletCount / rechargeTime * Time.deltaTime;
+            if (CurrentBulletCount < maxBulletCount)
+                CurrentBulletCount += maxBulletCount / rechargeTime * Time.deltaTime;
             else
-                currentBulletCount = maxBulletCount;
+                CurrentBulletCount = maxBulletCount;
         }
 
-        if (currentBulletCount == maxBulletCount)
+        if (CurrentBulletCount == maxBulletCount)
             canShoot = true;
     }
 
@@ -85,12 +100,13 @@ public class Ammo : MonoBehaviour
     private void AddMaxBullet()
 	{
         maxBulletCount++;
-	}
+        onMaxAmmoUpdate?.Invoke();
+    }
 
     /// <summary>
     /// Starts the recharge wait timer when "Shoot" button is released.
     /// </summary>
-    public void StartWaterTimer()
+    public void StartWaitTimer()
 	{
         if (canRefill)
             canRefill = false;

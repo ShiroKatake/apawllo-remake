@@ -61,7 +61,7 @@ public class Shoot : MonoBehaviour
 			return;
 
 		ObjectPooler.Instance.SpawnFromPool(GetAmmo().BulletType, firePoint.position, firePoint.rotation);
-		ammo.BulletCount--;
+		ammo.CurrentBulletCount--;
 		chargeTimer.ResetTimer();
 	}
 

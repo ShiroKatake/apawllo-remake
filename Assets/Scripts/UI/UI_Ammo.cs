@@ -13,7 +13,7 @@ public class UI_Ammo : MonoBehaviour
     [SerializeField] private Image fill;
 
     const int x = 19, y = 20;
-
+    private Ammo playerAmmo;
     /// <summary>
     /// Updates UI whenever bullet count is changed.
     /// </summary>
@@ -22,23 +22,31 @@ public class UI_Ammo : MonoBehaviour
         set
         {
             bulletCount = value;
-            SetAmmoSize();
+            SetAmmoCount();
         }
     }
 
     // Start is called before the first frame update
-    private void Start()
+    private void Awake()
     {
-        SetAmmoSize();
+        playerAmmo = FindObjectOfType<PlayerController>().GetComponent<Ammo>();
     }
 
     /// <summary>
     /// Changes tiling for the ammo bar.
     /// </summary>
-    private void SetAmmoSize()
+    public void SetAmmoMaxSize()
 	{
-        Vector2 size = new Vector2(bulletCount * x, y);
+        Vector2 size = new Vector2(playerAmmo.MaxBulletCount * x, y);
         ammoX.rectTransform.sizeDelta = size;
         fill.rectTransform.sizeDelta = size;
+    }
+
+    /// <summary>
+    /// Changes tiling for the ammo bar.
+    /// </summary>
+    public void SetAmmoCount()
+	{
+        fill.fillAmount = playerAmmo.CurrentBulletCount / playerAmmo.MaxBulletCount;
     }
 }
