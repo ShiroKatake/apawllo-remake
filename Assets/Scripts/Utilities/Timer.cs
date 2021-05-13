@@ -5,8 +5,12 @@
 /// </summary>
 public class Timer : MonoBehaviour
 {
-    #region Private Fields
-    private float timeEnd;
+    #region Serialized Fields
+    [SerializeField] private string timerName;
+	#endregion
+
+	#region Private Fields
+	private float timeEnd;
     private float time;
     private bool isEndless;
     private bool isTiming;
@@ -24,9 +28,10 @@ public class Timer : MonoBehaviour
     /// <param name="gameObject">Game object to attach to as component.</param>
     /// <param name="timeEnd">How long to time for.</param>
     /// <returns></returns>
-    public static Timer CreateComponent(GameObject gameObject, float timeEnd)
+    public static Timer CreateComponent(GameObject gameObject, string timerName, float timeEnd)
 	{
         Timer timer = gameObject.AddComponent(typeof(Timer)) as Timer;
+        timer.timerName = timerName;
         timer.timeEnd = timeEnd;
         return timer;
 	}
@@ -37,9 +42,10 @@ public class Timer : MonoBehaviour
     /// <param name="gameObject">Game object to attach to as component.</param>
     /// <param name="isEndless">Whether this timer is endless.</param>
     /// <returns></returns>
-    public static Timer CreateComponent(GameObject gameObject, bool isEndless)
+    public static Timer CreateComponent(GameObject gameObject, string timerName, bool isEndless)
     {
         Timer timer = gameObject.AddComponent(typeof(Timer)) as Timer;
+        timer.timerName = timerName;
         timer.isEndless = isEndless;
         return timer;
     }

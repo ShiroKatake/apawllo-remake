@@ -31,7 +31,7 @@ public class Shoot : MonoBehaviour
 	private void Awake()
 	{
 		ammo = GetComponent<Ammo>();
-		chargeTimer = Timer.CreateComponent(gameObject, true);
+		chargeTimer = Timer.CreateComponent(gameObject, "Charge Timer", true);
 	}
 
 	/// <summary>

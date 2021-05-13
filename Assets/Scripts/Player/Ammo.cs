@@ -40,7 +40,7 @@ public class Ammo : MonoBehaviour
 	/// </summary>
 	private void Awake()
 	{
-        rechargeTimer = Timer.CreateComponent(gameObject, rechargeWaitTime);
+        rechargeTimer = Timer.CreateComponent(gameObject, "Recharge Wait Timer", rechargeWaitTime);
 	}
 
     /// <summary>
