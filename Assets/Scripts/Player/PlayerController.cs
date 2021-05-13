@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
 	private GameControls controls;
 	private Vector2 move;
 	private Shoot shoot;
+	private Ammo ammo;
 	#endregion
 
 	/// <summary>
@@ -23,9 +24,11 @@ public class PlayerController : MonoBehaviour
 		controls = new GameControls();
 
 		shoot = GetComponent<Shoot>();
+		ammo = GetComponent<Ammo>();
 
-		controls.Gameplay.Shoot.performed += context => shoot.StartTimer();
+		controls.Gameplay.Shoot.performed += context => shoot.StartCharge();
 		controls.Gameplay.Shoot.canceled += context => shoot.OnShoot();
+		controls.Gameplay.Shoot.canceled += context => ammo.StartCooldown();
 
 		controls.Gameplay.Move.performed += context => move = context.ReadValue<Vector2>();
 		controls.Gameplay.Move.canceled += context => move = Vector2.zero;
