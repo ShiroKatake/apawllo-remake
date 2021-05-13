@@ -19,13 +19,13 @@ public class Shoot : MonoBehaviour
 
 	#region Private Fields
 	private Ammo ammo;
-	private float timePassed;
-	private bool isTiming = false;
+	private Timer chargeTimer;
 	#endregion
 
 	private void Awake()
 	{
 		ammo = GetComponent<Ammo>();
+		chargeTimer = Timer.CreateComponent(gameObject, true);
 	}
 
 	/// <summary>
@@ -33,18 +33,17 @@ public class Shoot : MonoBehaviour
 	/// </summary>
 	void Update()
 	{
-		if (isTiming)
-			timePassed += Time.deltaTime;
+
 	}
 
 	/// <summary>
 	/// Initiates time counting when "Shoot" button is pressed.
 	/// </summary>
-	public void StartTimer()
+	public void StartCharge()
 	{
 		if (!ammo.CanShoot)
-			return; 
-		isTiming = true;
+			return;
+		chargeTimer.StartTimer();
 	}
 
 	/// <summary>
@@ -55,10 +54,18 @@ public class Shoot : MonoBehaviour
 	{
 		if (!ammo.CanShoot)
 			return;
-		
+
+		ObjectPooler.Instance.SpawnFromPool(GetAmmo().BulletType, firePoint.position, firePoint.rotation);
+		ammo.BulletCount--;
+		chargeTimer.ResetTimer();
+	}
+
+	private Bullet GetAmmo()
+	{
+		float timePassed = chargeTimer.TimePassed;
 		Bullet bullet = normalBullet;
 		Debug.Log("Shooting normal charge.");
-		//Move bullet type checking to ammo script
+
 		if (timePassed >= mediumCharge && timePassed < heavyCharge)
 		{
 			bullet = mediumBullet;
@@ -70,9 +77,6 @@ public class Shoot : MonoBehaviour
 			Debug.Log("Shooting heavy charge.");
 		}
 
-		ObjectPooler.Instance.SpawnFromPool(bullet.BulletType, firePoint.position, firePoint.rotation);
-		ammo.BulletCount--;
-		timePassed = 0f;
-		isTiming = false;
+		return bullet;
 	}
 }
