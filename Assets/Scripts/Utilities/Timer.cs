@@ -6,6 +6,7 @@
 public class Timer : MonoBehaviour
 {
     #region Serialized Fields
+    [ReadOnly]
     [SerializeField] private string timerName;
 	#endregion
 
