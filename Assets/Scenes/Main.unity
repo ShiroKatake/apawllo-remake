@@ -661,9 +661,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxBulletCount: 10
-  currentBulletCount: 0
-  rechargeTime: 0
-  cooldownTime: 0
+  rechargeTime: 5
+  rechargeWaitTime: 1
 --- !u!1 &1266194276
 GameObject:
   m_ObjectHideFlags: 0
