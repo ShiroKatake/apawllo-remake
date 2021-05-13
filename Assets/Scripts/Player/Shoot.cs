@@ -5,14 +5,28 @@
 /// </summary>
 public class Shoot : MonoBehaviour
 {
+	#region Serialized Fields
 	[SerializeField] private Transform firePoint;
 
 	[Header("Charge Times")]
 	[SerializeField] private float mediumCharge = 1f;
 	[SerializeField] private float heavyCharge = 2f;
 
+	[SerializeField] private Bullet normalBullet;
+	[SerializeField] private Bullet mediumBullet;
+	[SerializeField] private Bullet heavyBullet;
+	#endregion
+
+	#region Private Fields
+	private Ammo ammo;
 	private float timePassed;
 	private bool isTiming = false;
+	#endregion
+
+	private void Awake()
+	{
+		ammo = GetComponent<Ammo>();
+	}
 
 	/// <summary>
 	/// Keeps track of time as "Shoot" button is held down.
@@ -28,6 +42,8 @@ public class Shoot : MonoBehaviour
 	/// </summary>
 	public void StartTimer()
 	{
+		if (!ammo.CanShoot)
+			return; 
 		isTiming = true;
 	}
 
@@ -37,21 +53,25 @@ public class Shoot : MonoBehaviour
 	/// </summary>
 	public void OnShoot()
 	{
-		Pools bulletPool = Pools.ApawlloBullet;
+		if (!ammo.CanShoot)
+			return;
+		
+		Bullet bullet = normalBullet;
 		Debug.Log("Shooting normal charge.");
-
+		//Move bullet type checking to ammo script
 		if (timePassed >= mediumCharge && timePassed < heavyCharge)
 		{
-			bulletPool = Pools.ApawlloBullet;
+			bullet = mediumBullet;
 			Debug.Log("Shooting medium charge.");
 		}
 		if (timePassed >= heavyCharge)
 		{
-			bulletPool = Pools.ApawlloBullet;
+			bullet = heavyBullet;
 			Debug.Log("Shooting heavy charge.");
 		}
 
-		ObjectPooler.Instance.SpawnFromPool(bulletPool, firePoint.position, firePoint.rotation);
+		ObjectPooler.Instance.SpawnFromPool(bullet.BulletType, firePoint.position, firePoint.rotation);
+		ammo.BulletCount--;
 		timePassed = 0f;
 		isTiming = false;
 	}
