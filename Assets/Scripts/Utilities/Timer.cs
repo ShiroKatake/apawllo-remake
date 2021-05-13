@@ -10,7 +10,7 @@ public class Timer : MonoBehaviour
     [SerializeField] private string timerName;
 
     [ReadOnly]
-    [SerializeField] private float time;
+    [SerializeField] private float timePassed;
     #endregion
 
     #region Private Fields
@@ -23,7 +23,7 @@ public class Timer : MonoBehaviour
 
     #region Public Properties
 	public bool TimerFinished { get => timerFinished; }
-    public float TimePassed { get => time; }
+    public float TimePassed { get => timePassed; }
     #endregion
 
     /// <summary>
@@ -62,12 +62,12 @@ public class Timer : MonoBehaviour
         if (!isTiming)
             return;
 
-        time += Time.deltaTime;
+        timePassed += Time.deltaTime;
             
         if (isEndless)
             return;
 
-        if (time > timeEnd)
+        if (timePassed > timeEnd)
 		{
             timerFinished = true;
             ResetTimer();
@@ -95,6 +95,6 @@ public class Timer : MonoBehaviour
 	{
         if (isTiming)
             isTiming = false;
-        time = 0;
+        timePassed = 0;
     }
 }
