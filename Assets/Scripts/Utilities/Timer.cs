@@ -28,29 +28,36 @@ public class Timer : MonoBehaviour
 
     void Update()
     {
-        if (isTiming)
-		{
-            time += Time.deltaTime;
-            
-            if (isEndless)
-                return;
+        if (!isTiming)
+            return;
 
-            if (time > timeEnd)
-			{
-                timerFinished = true;
-                ResetTimer();
-            }
+        time += Time.deltaTime;
+            
+        if (isEndless)
+            return;
+
+        if (time > timeEnd)
+		{
+            timerFinished = true;
+            ResetTimer();
         }
     }
 
     public void StartTimer()
 	{
-        isTiming = true;
+        ResetTimer();
+
+        if (!isTiming)
+            isTiming = true;
+        
+        if (timerFinished)
+        timerFinished = false;
     }
 
     public void ResetTimer()
 	{
-        isTiming = false;
+        if (isTiming)
+            isTiming = false;
         time = 0;
-	}
+    }
 }
