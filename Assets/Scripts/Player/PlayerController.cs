@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour
 
 		controls.Gameplay.Shoot.performed += context => shoot.StartCharge();
 		controls.Gameplay.Shoot.canceled += context => shoot.OnShoot();
-		controls.Gameplay.Shoot.canceled += context => ammo.StartWaterTimer();
+		controls.Gameplay.Shoot.canceled += context => ammo.StartWaitTimer();
 
 		controls.Gameplay.Move.performed += context => move = context.ReadValue<Vector2>();
 		controls.Gameplay.Move.canceled += context => move = Vector2.zero;
