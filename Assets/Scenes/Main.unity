@@ -286,6 +286,8 @@ GameObject:
   m_Component:
   - component: {fileID: 217083621}
   - component: {fileID: 217083622}
+  - component: {fileID: 217083623}
+  - component: {fileID: 217083624}
   m_Layer: 5
   m_Name: AmmoBar
   m_TagString: Untagged
@@ -330,6 +332,60 @@ MonoBehaviour:
   bulletCount: 5
   ammoX: {fileID: 1594723852}
   fill: {fileID: 1986442244}
+--- !u!114 &217083623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217083620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92bd205141a833b45a174cc570c34ebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: eecbb811d75064a40b4f33941cbf1115, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 217083622}
+        m_MethodName: SetAmmoCount
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &217083624
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 217083620}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92bd205141a833b45a174cc570c34ebd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameEvent: {fileID: 11400000, guid: a30646f653beda74980b92f248b7adb8, type: 2}
+  unityEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 217083622}
+        m_MethodName: SetAmmoMaxSize
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &243985598
 GameObject:
   m_ObjectHideFlags: 0
@@ -663,6 +719,9 @@ MonoBehaviour:
   maxBulletCount: 10
   rechargeTime: 5
   rechargeWaitTime: 1
+  currentBulletCount: 0
+  onAmmoUpdate: {fileID: 11400000, guid: eecbb811d75064a40b4f33941cbf1115, type: 2}
+  onMaxAmmoUpdate: {fileID: 0}
 --- !u!1 &1266194276
 GameObject:
   m_ObjectHideFlags: 0
@@ -776,7 +835,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 190, y: 20}
+  m_SizeDelta: {x: 38, y: 20}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1594723852
 MonoBehaviour:
@@ -949,7 +1008,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 190, y: 20}
+  m_SizeDelta: {x: 38, y: 20}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &1986442244
 MonoBehaviour:
