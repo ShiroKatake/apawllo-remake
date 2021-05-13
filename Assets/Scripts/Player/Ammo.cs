@@ -108,7 +108,7 @@ public class Ammo : MonoBehaviour
     /// </summary>
     public void StartWaitTimer()
 	{
-        if (canRefill)
+        if (canShoot && canRefill)
             canRefill = false;
         rechargeTimer.StartTimer();
     }
