@@ -60,16 +60,16 @@ public class Shoot : MonoBehaviour
 		if (!ammo.CanShoot)
 			return;
 
-		ObjectPooler.Instance.SpawnFromPool(GetAmmo().PoolType, firePoint.position, firePoint.rotation);
-		ammo.CurrentBulletCount--;
+		Bullet bullet = GetBulletType();
+		ObjectPooler.Instance.SpawnFromPool(bullet.PoolType, firePoint.position, firePoint.rotation);
+		ammo.ConsumeBullet(bullet);
 		chargeTimer.ResetTimer();
 	}
 
 	/// <summary>
 	/// Return a bullet type depending on how long "Shoot" was held down for,
-	/// (currently only have 1 prefab so all 3 types use the same prefab).
 	/// </summary>
-	private Bullet GetAmmo()
+	private Bullet GetBulletType()
 	{
 		float timePassed = chargeTimer.TimePassed;
 		Bullet bullet = lightBullet;

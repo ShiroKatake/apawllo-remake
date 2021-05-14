@@ -34,6 +34,7 @@ public class Ammo : MonoBehaviour
     private Timer rechargeTimer;
     private bool canShoot;
     private bool canRefill;
+    private bool isShootPressed;
     #endregion
 
     #region Public Properties
@@ -89,7 +90,7 @@ public class Ammo : MonoBehaviour
         if (CurrentBulletCount < 1)
             CanShoot = false;
 
-        if (rechargeTimer.TimerFinished)
+        if (rechargeTimer.TimerFinished && !isShootPressed)
             canRefill = true;
 
         if (canRefill)
@@ -114,12 +115,31 @@ public class Ammo : MonoBehaviour
     }
 
     /// <summary>
+    /// Pauses refilling of ammo.
+    /// </summary>
+    public void OnShootPressed()
+	{
+        isShootPressed = true;
+        if (canRefill)
+            canRefill = false;
+    }
+
+    /// <summary>
     /// Starts the recharge wait timer when "Shoot" button is released.
     /// </summary>
-    public void StartWaitTimer()
+    public void OnShootReleased()
 	{
+        isShootPressed = false;
         if (CanShoot && canRefill)
             canRefill = false;
         rechargeTimer.StartTimer();
+    }
+
+    /// <summary>
+    /// Use ammo depending on bullet type.
+    /// </summary>
+    public void ConsumeBullet(Bullet bullet)
+	{
+        CurrentBulletCount -= bullet.Cost;
     }
 }
