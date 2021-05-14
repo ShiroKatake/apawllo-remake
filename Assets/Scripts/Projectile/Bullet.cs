@@ -3,7 +3,7 @@
 /// <summary>
 /// Handles bullet movement and lifetime.
 /// </summary>
-public class Bullet : MonoBehaviour
+public class Bullet : MonoBehaviour, IPooledObject
 {
 	#region Serialized Fields
 	[SerializeField] private int damage;
@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
 	#endregion
 
 	public int Damage { get => damage; }
-	public Pools BulletType { get => pool; }
+	public Pools PoolType { get => pool; }
 
 	/// <summary>
 	/// Moves the bullet.
