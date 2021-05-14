@@ -1,6 +1,7 @@
-﻿using UnityEngine;
-
+﻿/// <summary>
+/// Interface for all object pools.
+/// </summary>
 public interface IPooledObject
 {
-	void OnObjectSpawn();
+	Pools PoolType { get; }
 }
