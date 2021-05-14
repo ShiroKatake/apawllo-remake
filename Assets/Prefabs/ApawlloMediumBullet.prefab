@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2845178450813730413}
   - component: {fileID: -1904103707310740872}
   m_Layer: 0
-  m_Name: ApawlloBullet
+  m_Name: ApawlloMediumBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   damage: 2
   speed: 10
   lifetime: 3
-  pool: 0
+  pool: 1
 --- !u!1 &6370940897835346097
 GameObject:
   m_ObjectHideFlags: 0
