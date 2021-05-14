@@ -698,11 +698,11 @@ MonoBehaviour:
   firePoint: {fileID: 1266194277}
   mediumCharge: 1
   heavyCharge: 2
-  normalBullet: {fileID: -1904103707310740872, guid: 4f1013365862fc2448485cbafea2707b,
+  lightBullet: {fileID: -1904103707310740872, guid: d71e7e0791f096b4886b0c3970802dc3,
     type: 3}
   mediumBullet: {fileID: -1904103707310740872, guid: 4f1013365862fc2448485cbafea2707b,
     type: 3}
-  heavyBullet: {fileID: -1904103707310740872, guid: 4f1013365862fc2448485cbafea2707b,
+  heavyBullet: {fileID: -1904103707310740872, guid: 3e697cb43b7f16f4ab84877e811085f7,
     type: 3}
 --- !u!4 &1249175775
 Transform:
@@ -827,9 +827,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pools:
   - tag: 0
-    objectToPool: {fileID: 2240714596347301559, guid: 4f1013365862fc2448485cbafea2707b,
+    objectToPool: {fileID: 2240714596347301559, guid: d71e7e0791f096b4886b0c3970802dc3,
       type: 3}
     amountToPool: 10
+  - tag: 1
+    objectToPool: {fileID: 2240714596347301559, guid: 4f1013365862fc2448485cbafea2707b,
+      type: 3}
+    amountToPool: 3
+  - tag: 2
+    objectToPool: {fileID: 2240714596347301559, guid: 3e697cb43b7f16f4ab84877e811085f7,
+      type: 3}
+    amountToPool: 3
 --- !u!1 &1594723850
 GameObject:
   m_ObjectHideFlags: 0

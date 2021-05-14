@@ -14,7 +14,7 @@ public class Shoot : MonoBehaviour
 	[SerializeField] private float heavyCharge = 2f;
 
 	[Header("Bullet Prefab")]
-	[SerializeField] private Bullet normalBullet;
+	[SerializeField] private Bullet lightBullet;
 	[SerializeField] private Bullet mediumBullet;
 	[SerializeField] private Bullet heavyBullet;
 	#endregion
@@ -60,7 +60,7 @@ public class Shoot : MonoBehaviour
 		if (!ammo.CanShoot)
 			return;
 
-		ObjectPooler.Instance.SpawnFromPool(GetAmmo().BulletType, firePoint.position, firePoint.rotation);
+		ObjectPooler.Instance.SpawnFromPool(GetAmmo().PoolType, firePoint.position, firePoint.rotation);
 		ammo.CurrentBulletCount--;
 		chargeTimer.ResetTimer();
 	}
@@ -72,20 +72,14 @@ public class Shoot : MonoBehaviour
 	private Bullet GetAmmo()
 	{
 		float timePassed = chargeTimer.TimePassed;
-		Bullet bullet = normalBullet;
-		Debug.Log("Shooting normal charge.");
+		Bullet bullet = lightBullet;
 
 		if (timePassed >= mediumCharge && timePassed < heavyCharge)
-		{
 			bullet = mediumBullet;
-			Debug.Log("Shooting medium charge.");
-		}
 		if (timePassed >= heavyCharge)
-		{
 			bullet = heavyBullet;
-			Debug.Log("Shooting heavy charge.");
-		}
 
+		Debug.Log($"Shooting {bullet.name}.");
 		return bullet;
 	}
 }

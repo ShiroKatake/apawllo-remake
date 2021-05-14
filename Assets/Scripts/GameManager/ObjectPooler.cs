@@ -6,7 +6,9 @@ using UnityEngine;
 /// </summary>
 public enum Pools
 {
-	ApawlloBullet,
+	ApawlloLightBullet,
+	ApawlloMediumBullet,
+	ApawlloHeavyBullet,
 	SquireBullet
 }
 
@@ -18,6 +20,7 @@ public class ObjectPooler : MonoBehaviour
 	[System.Serializable]
 	public class Pool
 	{
+		[HideInInspector]
 		public Pools tag;
 		public GameObject objectToPool;
 		public int amountToPool;
@@ -44,15 +47,17 @@ public class ObjectPooler : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Initialize pools by instantiating their assigned
-	/// objects and adding them to the dictionary.
+	/// Initialize pools by setting their tags using the assigned objects, 
+	/// instantiating said objects, and adding them to the dictionary.
 	/// </summary>
 	private void Start()
 	{
 		poolDictionary = new Dictionary<Pools, Queue<GameObject>>();
 
 		foreach (Pool pool in pools)
-		{
+		{			
+			pool.tag = pool.objectToPool.GetComponent<IPooledObject>().PoolType;
+
 			Queue<GameObject> objectPool = new Queue<GameObject>();
 
 			for (int i = 0; i < pool.amountToPool; i++)
