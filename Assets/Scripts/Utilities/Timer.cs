@@ -29,8 +29,9 @@ public class Timer : MonoBehaviour
     /// <summary>
     /// Creates, attaches and initializes this as a component to a game object with a timer duration.
     /// </summary>
-    /// <param name="gameObject">Game object to attach to as component.</param>
-    /// <param name="timeEnd">How long to time for.</param>
+    /// <param name="gameObject">Game object to attach the timer to.</param>
+    /// <param name="timerName">Name of the timer (to be shown in the inspector).</param>
+    /// <param name="timeEnd">How long the timer will run before resetting. Set to -1 to make the timer never resets</param>
     /// <returns></returns>
     public static Timer CreateComponent(GameObject gameObject, string timerName, float timeEnd)
 	{
@@ -40,31 +41,14 @@ public class Timer : MonoBehaviour
         return timer;
 	}
 
-    /// <summary>
-    /// Creates, attaches and initializes this as a component to a game object as an endless timer.
-    /// </summary>
-    /// <param name="gameObject">Game object to attach to as component.</param>
-    /// <param name="isEndless">Whether this timer is endless.</param>
-    /// <returns></returns>
-    public static Timer CreateComponent(GameObject gameObject, string timerName, bool isEndless)
-    {
-        Timer timer = gameObject.AddComponent(typeof(Timer)) as Timer;
-        timer.timerName = timerName;
-        timer.isEndless = isEndless;
-        return timer;
-    }
-
-    /// <summary>
-    /// Handles timing.
-    /// </summary>
     void Update()
     {
         if (!isTiming)
             return;
 
         timePassed += Time.deltaTime;
-            
-        if (isEndless)
+        
+        if (timeEnd == -1)
             return;
 
         if (timePassed > timeEnd)
@@ -74,9 +58,6 @@ public class Timer : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Starts the timer.
-    /// </summary>
     public void StartTimer()
 	{
         ResetTimer();
@@ -88,9 +69,6 @@ public class Timer : MonoBehaviour
         timerFinished = false;
     }
 
-    /// <summary>
-    /// Resets the timer.
-    /// </summary>
     public void ResetTimer()
 	{
         if (isTiming)

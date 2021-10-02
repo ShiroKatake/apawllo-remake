@@ -6,20 +6,20 @@
 public class Ammo : MonoBehaviour
 {
     #region Serialized Fields
-    [Tooltip("Max ammo capacity.")]
+    [Header("Ammo Stats")]
     [SerializeField] private int maxBulletCount;
 
-    [Tooltip("Time it takes to recharge to max ammo.")]
-    [SerializeField] private float rechargeTime;
-
-    [Tooltip("How long the player needs to wait after releasing the 'Shoot' button to start recharging ammo.")]
-    [SerializeField] private float rechargeWaitTime;
-    
-    [Header("Game Events")]
     [ReadOnly]
-    [Tooltip("Current ammo count.")]
     [SerializeField] private float currentBulletCount;
 
+    [Tooltip("The time it takes to recharge to max ammo.")]
+    [SerializeField] private float rechargeTime;
+
+    [Tooltip("The time the player has to not shoot for the ammo to starts refill automatically.")]
+    [SerializeField] private float rechargeCooldown;
+    
+
+    [Header("Game Events")]
     [Tooltip("Game event for when ammo count gets updated.")]
     [SerializeField] private GameEvent onAmmoUpdate;
 
@@ -68,7 +68,7 @@ public class Ammo : MonoBehaviour
 	/// </summary>
 	private void Awake()
 	{
-        rechargeTimer = Timer.CreateComponent(gameObject, "Recharge Wait Timer", rechargeWaitTime);
+        rechargeTimer = Timer.CreateComponent(gameObject, "Recharge Wait Timer", rechargeCooldown);
 	}
 
     /// <summary>

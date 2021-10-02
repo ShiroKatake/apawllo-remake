@@ -9,7 +9,7 @@ public class Shoot : MonoBehaviour
 	[Header("Fire Point")]
 	[SerializeField] private Transform firePoint;
 
-	[Header("Charge Times")]
+	[Header("Bullet Charge Times")]
 	[SerializeField] private float mediumCharge = 1f;
 	[SerializeField] private float heavyCharge = 2f;
 
@@ -31,7 +31,7 @@ public class Shoot : MonoBehaviour
 	private void Awake()
 	{
 		ammo = GetComponent<Ammo>();
-		chargeTimer = Timer.CreateComponent(gameObject, "Charge Timer", true);
+		chargeTimer = Timer.CreateComponent(gameObject, "Charge Timer", -1);
 	}
 
 	/// <summary>
