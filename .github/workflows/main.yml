@@ -3,7 +3,7 @@ name: GameCI Template 🎮
 on: 
   push:
     branches:
-      - main
+      - develop
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
