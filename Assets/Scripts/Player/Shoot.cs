@@ -34,6 +34,7 @@ public class Shoot : MonoBehaviour
 		chargeTimer = Timer.CreateComponent(gameObject, "Charge Timer", -1);
 	}
 
+
 	/// <summary>
 	/// Keeps track of time as "Shoot" button is held down.
 	/// </summary>
