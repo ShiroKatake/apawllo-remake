@@ -196,32 +196,9 @@ jobs:
           MESSAGE: "Build: ({sha}) {msg}"
           
   release:
-    needs: [deployWebGL, deployWindows]
     name: Release
     runs-on: ubuntu-latest
-    steps:
-
-      #   with:
-      #     ref:
-
-      # - name: Setup Node.js
-      #   uses: actions/setup-node@v1
-      #   with:
-      #     node-version: '14.17'
-
-      # - name: Install dependencies
-      #   run: npm ci
-
-      # - name: Release
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      #   run: npx semantic-release
-        - name: Checkout
-          uses: actions/checkout@v2
-          
-        - uses: release-drafter/release-drafter@v5.15.0
-          with:
-            config-name: release-drafter.yml
+    steps:          
+        - uses: release-drafter/release-drafter@master
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
