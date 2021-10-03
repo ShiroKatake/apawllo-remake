@@ -196,7 +196,7 @@ jobs:
           MESSAGE: "Build: ({sha}) {msg}"
           
   release:
-    needs: [buildWebGL, buildWindows]
+    needs: [deployWebGL, deployWindows]
     name: Release
     runs-on: ubuntu-latest
     steps:
