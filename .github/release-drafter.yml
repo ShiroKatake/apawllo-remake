@@ -5,11 +5,11 @@ template: |
   $CHANGES
 categories:
   - title: '🚀 What's new'
-    labels: 'major'
+    label: 'major'
   - title: '🔧 Changes'
-    labels: 'minor'
+    label: 'minor'
   - title: '🐞 Bug Fixes'
-    labels: 'patch'
+    label: 'patch'
 
 version-resolver:
   major:
