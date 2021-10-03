@@ -4,7 +4,7 @@ template: |
   # What's Changed
   $CHANGES
 categories:
-  - title: '🚀 What's new'
+  - title: '🚀 New features'
     label: 'major'
   - title: '🔧 Changes'
     label: 'minor'
