@@ -1,9 +1,11 @@
-name: GameCI Template 🎮
+name: Build for QA 🎮
 
 on: 
   push:
     branches:
       - develop
+    paths-ignore:
+      - '.github/**'
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
@@ -69,7 +71,7 @@ jobs:
   
   buildWebGL:
     needs: testRunner
-    name: Build for WebGL 🖥️
+    name: Build for WebGL 🌐
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -150,3 +152,41 @@ jobs:
         with:
           name: build-StandaloneWindows64
           path: build/StandaloneWindows64
+          
+  deployWebGL:
+    needs: buildWebGL
+    name: Deploy WebGL 🌐
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: build-WebGL
+          path: build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          branch: build-webgl
+          folder: build/WebGL
+          
+  deployWindows:
+    needs: buildWindows
+    name: Deploy Windows 🖥️
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: build-StandaloneWindows64
+          path: build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.5
+        with:
+          branch: build-windows-64
+          folder: build/StandaloneWindows64
