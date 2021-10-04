@@ -244,6 +244,7 @@ jobs:
         with:
           # upload_url: ${{ needs.releaseDraft.outputs.upload_url }}
           upload_url: ${{ steps.create_release.outputs.upload_url }}
+          release_id: ${{ steps.create_release.outputs.id }}
           asset_path: ./build.zip
           asset_name: Apawllo-${{ needs.releaseDraft.outputs.tag_name }}.zip
           asset_content_type: application/zip
