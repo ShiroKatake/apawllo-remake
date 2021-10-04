@@ -3,14 +3,18 @@ tag-template: 'v$RESOLVED_VERSION'
 template: |
   # What's Changed
   $CHANGES
+  ## QA Testing
+  * WebGL build can be played [here](https://shirokatake.github.io/apawllo-remake/).
+  * Windows build can be downloaded below.
+
 categories:
-  - title: '🚀 Breaking'
+  - title: '⚡ Breaking'
     label: 'major'
-  - title: '✨ New'
+  - title: '🚀 New Features'
     label: 'feature'
   - title: '🐞 Bug Fixes'
     label: 'patch'
-  - title: '🔄 Workflow Updates'
+  - title: '✨ Workflow Updates'
     label: 'workflow'
 
 version-resolver:
@@ -26,5 +30,3 @@ version-resolver:
 
 exclude-labels:
   - 'skip-changelog'
-
-commitish: 'build-webgl'
