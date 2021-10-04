@@ -185,7 +185,7 @@ jobs:
           folder: build/WebGL
           
   releaseDraft:
-    needs: deployWebGL
+    needs: testRunner
     name: Release Draft
     runs-on: ubuntu-latest
     outputs:
@@ -237,7 +237,7 @@ jobs:
           asset_content_type: application/zip
           
   publishRelease:
-    needs: [releaseDraft, uploadBuild]
+    needs: [deployWebGL, uploadBuild]
     name: Publish Release
     runs-on: ubuntu-latest
     steps:
