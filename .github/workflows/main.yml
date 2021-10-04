@@ -199,28 +199,34 @@ jobs:
         with:
           type: 'zip'
           filename: 'build.zip'
-
+          
+  releaseDraft:
+    name: Release Draft
+    runs-on: ubuntu-latest
+    steps:
+      - name: Draft a Release
+        uses: release-drafter/release-drafter@master
+        id: release-draft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    outputs:
+      upload_url: ${{ steps.release-draft.outputs.upload_url }}
+      tag_name: ${{ steps.release-draft.outputs.tag_name }}
+  
+  uploadBuild:
+    needs: [releaseDraft, deployWindows]
+    name: Upload Windows x64 Build to Release
+    runs-on: ubuntu-latest
+    steps:
       - name: Upload Build as Release Asset
         uses: gfreezy/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ jobs.releaseDraft.outputs.upload_url }}
+          upload_url: ${{ needs.releaseDraft.outputs.upload_url }}
           asset_path: ./build.zip
-          asset_name: Apawllo-${{ jobs.releaseDraft.outputs.tag_name }}.zip
+          asset_name: Apawllo-${{ needs.releaseDraft.outputs.tag_name }}.zip
           asset_content_type: application/zip
-          
-  releaseDraft:
-    name: Release Draft
-    runs-on: ubuntu-latest
-    steps:          
-      - uses: release-drafter/release-drafter@master
-        id: release-draft
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    outputs:
-      tag_name: ${{ steps.release-draft.outputs.tag_name }}
-      upload_url: ${{ steps.release-draft.outputs.upload_url }}
           
   publishRelease:
     needs: [deployWindows, deployWebGL, releaseDraft]
