@@ -1,7 +1,7 @@
 {
 "companyName": "DefaultCompany",
 "productName": "Apawllo",
-"productVersion": "0.0.151",
+"productVersion": "0.0.153",
 "dataUrl": "WebGL.data.unityweb",
 "wasmCodeUrl": "WebGL.wasm.code.unityweb",
 "wasmFrameworkUrl": "WebGL.wasm.framework.unityweb",
