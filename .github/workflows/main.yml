@@ -223,7 +223,7 @@ jobs:
         run: echo "::set-output name=upload_url::${{ steps.release-draft.outputs.tag_name }}"
   
   uploadBuild:
-    needs: [releaseDraft, deployWindows]
+    # needs: [releaseDraft, deployWindows]
     name: Upload Windows x64 Build to Release
     runs-on: ubuntu-latest
     steps:
