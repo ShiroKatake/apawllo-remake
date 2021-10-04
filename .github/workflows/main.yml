@@ -74,7 +74,7 @@ jobs:
   
   buildWebGL:
     needs: testRunner
-    name: Build for WebGL 🌐
+    name: Build WebGL 🌐
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -120,7 +120,7 @@ jobs:
 
   buildWindows:
     needs: testRunner
-    name: Build for Windows 🖥️
+    name: Build Windows x64 🖥️
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -204,7 +204,7 @@ jobs:
   
   uploadBuild:
     needs: [releaseDraft, buildWindows]
-    name: Upload Windows x64 Build to Release
+    name: Upload Build to Release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
