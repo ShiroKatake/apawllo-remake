@@ -184,26 +184,6 @@ jobs:
           branch: build-webgl
           folder: build/WebGL
           
-  deployWindows:
-    needs: buildWindows
-    name: Deploy Windows 🖥️
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repo
-        uses: actions/checkout@v2
-
-      - name: Download Build
-        uses: actions/download-artifact@v2
-        with:
-          name: build-StandaloneWindows64
-          path: build
-          
-      - name: Zip Build
-        uses: TheDoctor0/zip-release@0.6.0
-        with:
-          type: 'zip'
-          filename: 'build.zip'
-          
   releaseDraft:
     needs: deployWebGL
     name: Release Draft
@@ -223,10 +203,25 @@ jobs:
         run: echo "::set-output name=upload_url::${{ steps.release-draft.outputs.tag_name }}"
   
   uploadBuild:
-    needs: [releaseDraft, deployWindows]
+    needs: releaseDraft
     name: Upload Windows x64 Build to Release
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Download Build
+        uses: actions/download-artifact@v2
+        with:
+          name: build-StandaloneWindows64
+          path: build
+          
+      - name: Zip Build
+        uses: TheDoctor0/zip-release@0.6.0
+        with:
+          type: 'zip'
+          filename: 'build.zip'
+          
       - name: Upload Build as Release Asset
         uses: gfreezy/upload-release-asset@v1.0.2
         env:
@@ -239,7 +234,7 @@ jobs:
           asset_content_type: application/zip
           
   publishRelease:
-    needs: [uploadBuild]
+    needs: uploadBuild
     name: Publish Release
     runs-on: ubuntu-latest
     steps:
