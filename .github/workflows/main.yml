@@ -227,12 +227,23 @@ jobs:
     name: Upload Windows x64 Build to Release
     runs-on: ubuntu-latest
     steps:
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
       - name: Upload Build as Release Asset
         uses: gfreezy/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ needs.releaseDraft.outputs.upload_url }}
+          # upload_url: ${{ needs.releaseDraft.outputs.upload_url }}
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./build.zip
           asset_name: Apawllo-${{ needs.releaseDraft.outputs.tag_name }}.zip
           asset_content_type: application/zip
