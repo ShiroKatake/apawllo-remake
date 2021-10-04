@@ -201,9 +201,9 @@ jobs:
       - id: output_upload_url
         run: echo "::set-output name=upload_url::${{ steps.release-draft.outputs.upload_url }}"
       - id: output_tag_name
-        run: echo "::set-output name=upload_url::${{ steps.release-draft.outputs.tag_name }}"
+        run: echo "::set-output name=tag_name::${{ steps.release-draft.outputs.tag_name }}"
       - id: output_release_id
-        run: echo "::set-output name=upload_url::${{ steps.release-draft.outputs.id }}"
+        run: echo "::set-output name=release_id::${{ steps.release-draft.outputs.id }}"
   
   uploadBuild:
     needs: [releaseDraft, buildWindows]
