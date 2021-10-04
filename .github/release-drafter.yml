@@ -4,12 +4,14 @@ template: |
   # What's Changed
   $CHANGES
 categories:
-  - title: '🚀 New features'
+  - title: '🚀 Breaking'
     label: 'major'
-  - title: '🔧 Changes'
-    label: 'minor'
+  - title: '✨ New'
+    label: 'feature'
   - title: '🐞 Bug Fixes'
     label: 'patch'
+  - title: '🔄 Workflow Updates'
+    label: 'workflow'
 
 version-resolver:
   major:
@@ -17,7 +19,7 @@ version-resolver:
       - 'major'
   minor:
     labels:
-      - 'minor'
+      - 'feature'
   patch:
     labels:
       - 'patch'
