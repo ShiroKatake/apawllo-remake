@@ -237,7 +237,7 @@ jobs:
           asset_content_type: application/zip
           
   publishRelease:
-    needs: [deployWebGL, uploadBuild]
+    needs: [deployWebGL, releaseDraft, uploadBuild]
     name: Publish Release
     runs-on: ubuntu-latest
     steps:
