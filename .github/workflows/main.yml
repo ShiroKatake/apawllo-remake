@@ -166,7 +166,7 @@ jobs:
           
   deployWebGL:
     needs: buildWebGL
-    name: Deploy WebGL 🌐
+    name: Deploy WebGL 🚢
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -186,7 +186,7 @@ jobs:
           
   releaseDraft:
     needs: testRunner
-    name: Release Draft
+    name: Release Draft 📜
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.output_upload_url.outputs.upload_url }}
@@ -207,7 +207,7 @@ jobs:
   
   uploadBuild:
     needs: [releaseDraft, buildWindows]
-    name: Upload Build to Release
+    name: Upload Build to Draft 📦
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -238,7 +238,7 @@ jobs:
           
   publishRelease:
     needs: [deployWebGL, releaseDraft, uploadBuild]
-    name: Publish Release
+    name: Publish Release 🚀
     runs-on: ubuntu-latest
     steps:
       - uses: eregon/publish-release@v1
