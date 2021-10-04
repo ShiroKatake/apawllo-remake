@@ -24,3 +24,5 @@ version-resolver:
 
 exclude-labels:
   - 'skip-changelog'
+
+commitish: 'build-webgl'
