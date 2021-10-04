@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - main
+      - develop
     paths-ignore:
       - '.github/**'
 
@@ -180,7 +180,7 @@ jobs:
           folder: build/WebGL
           
   deployWindows:
-    needs: [buildWindows, releaseDraft]
+    needs: buildWindows
     name: Deploy Windows 🖥️
     runs-on: ubuntu-latest
     steps:
@@ -210,7 +210,6 @@ jobs:
           asset_content_type: application/zip
           
   releaseDraft:
-    needs: deployWebGL
     name: Release Draft
     runs-on: ubuntu-latest
     steps:          
