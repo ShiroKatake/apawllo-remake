@@ -201,17 +201,22 @@ jobs:
           filename: 'build.zip'
           
   releaseDraft:
+    needs: deployWebGL
     name: Release Draft
     runs-on: ubuntu-latest
+    outputs:
+      upload_url: ${{ steps.release-draft.outputs.upload_url }}
+      tag_name: ${{ steps.release-draft.outputs.tag_name }}
     steps:
       - name: Draft a Release
         uses: release-drafter/release-drafter@master
         id: release-draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    outputs:
-      upload_url: ${{ steps.release-draft.outputs.upload_url }}
-      tag_name: ${{ steps.release-draft.outputs.tag_name }}
+      - id: output_upload_url
+        run: echo "::set-output name=upload_url::${{ steps.release-draft.outputs.upload_url }}"
+      - id: output_tag_name
+        run: echo "::set-output name=upload_url::${{ steps.release-draft.outputs.tag_name }}"
   
   uploadBuild:
     needs: [releaseDraft, deployWindows]
