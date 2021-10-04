@@ -19,7 +19,7 @@ jobs:
       - name: Fail - No license
         if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
         run: exit 1
-
+          
   testRunner:
     name: Test in ${{ matrix.testMode }} ✨
     runs-on: ubuntu-latest
@@ -30,7 +30,7 @@ jobs:
           - EditMode
           - PlayMode
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v2
 
       - name: Create LFS file list
@@ -58,14 +58,16 @@ jobs:
             Library-test-project-
             Library-
 
-      - uses: game-ci/unity-test-runner@v2.0-alpha-6
+      - name: Run Tests (Edit & Play mode)
+        uses: game-ci/unity-test-runner@v2.0-alpha-6
         id: testRunner
         with:
           testMode: ${{ matrix.testMode }}
           checkName: ${{ matrix.testMode }} test results
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/upload-artifact@v2
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
         with:
           name: Test results (${{ matrix.testMode }})
           path: ${{ steps.testRunner.outputs.artifactsPath }}
@@ -74,10 +76,8 @@ jobs:
     needs: testRunner
     name: Build for WebGL 🌐
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v2
 
       - name: Create LFS file list
@@ -95,6 +95,7 @@ jobs:
           git lfs pull
           git add .
           git reset --hard
+          
       - name: Restore Library cache
         uses: actions/cache@v2
         with:
@@ -103,11 +104,14 @@ jobs:
           restore-keys: |
             Library-build-
             Library-
-      - uses: game-ci/unity-builder@v2
+            
+      - name: Build into WebGL
+        uses: game-ci/unity-builder@v2
         with:
           targetPlatform: WebGL
 
-      - uses: actions/upload-artifact@v2
+      - name: Upload Build
+        uses: actions/upload-artifact@v2
         with:
           name: build-WebGL
           path: build/WebGL
@@ -116,8 +120,6 @@ jobs:
     needs: testRunner
     name: Build for Windows 🖥️
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -145,11 +147,14 @@ jobs:
           restore-keys: |
             Library-build-
             Library-
-      - uses: game-ci/unity-builder@v2
+      
+      - name: Build into Windows x64
+        uses: game-ci/unity-builder@v2
         with:
           targetPlatform: StandaloneWindows64
 
-      - uses: actions/upload-artifact@v2
+      - name: Upload Build
+        uses: actions/upload-artifact@v2
         with:
           name: build-StandaloneWindows64
           path: build/StandaloneWindows64
@@ -159,46 +164,68 @@ jobs:
     name: Deploy WebGL 🌐
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Repo
         uses: actions/checkout@v2
 
-      - uses: actions/download-artifact@v2
+      - name: Download Build
+        uses: actions/download-artifact@v2
         with:
           name: build-WebGL
           path: build
 
-      - name: Deploy 🚀
+      - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.5
         with:
           branch: build-webgl
           folder: build/WebGL
           
   deployWindows:
-    needs: buildWindows
+    needs: [buildWindows, releaseDraft]
     name: Deploy Windows 🖥️
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Repo
         uses: actions/checkout@v2
 
-      - uses: actions/download-artifact@v2
+      - name: Download Build
+        uses: actions/download-artifact@v2
         with:
           name: build-StandaloneWindows64
           path: build
-
-      - name: Deploy 🚀
-        uses: s0/git-publish-subdir-action@v2.5.0
-        env:
-          REPO: self
-          BRANCH: build-windows64
-          FOLDER: build
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MESSAGE: "Build: ({sha}) {msg}"
           
-  release:
-    name: Release
+      - name: Zip Build
+        uses: TheDoctor0/zip-release@0.6.0
+        with:
+          type: 'zip'
+          filename: 'build.zip'
+
+      - name: Upload Build as Release Asset
+        uses: gfreezy/upload-release-asset@v1.0.2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release-draft.outputs.upload_url }}
+          asset_path: ./build.zip
+          asset_name: Apawllo-${{ steps.release-draft.outputs.tag_name }}.zip
+          asset_content_type: application/zip
+          
+  releaseDraft:
+    needs: deployWebGL
+    name: Release Draft
     runs-on: ubuntu-latest
     steps:          
       - uses: release-drafter/release-drafter@master
+        id: release-draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+  publishRelease:
+    needs: [deployWindows, deployWebGL, releaseDraft]
+    name: Publish Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: eregon/publish-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_id: ${{ steps.create_release.outputs.id }}
