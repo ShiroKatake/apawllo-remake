@@ -231,7 +231,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.releaseDraft.outputs.upload_url }}
-          release_id: ${{ steps.releaseDraft.outputs.release_id }}
+          release_id: ${{ needs.releaseDraft.outputs.release_id }}
           asset_path: ./build.zip
           asset_name: Apawllo-${{ needs.releaseDraft.outputs.tag_name }}.zip
           asset_content_type: application/zip
