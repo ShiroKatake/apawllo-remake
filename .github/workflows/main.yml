@@ -185,7 +185,7 @@ jobs:
           folder: build/WebGL
           
   releaseDraft:
-    needs: testRunner
+    needs: buildWindows
     name: Release Draft
     runs-on: ubuntu-latest
     outputs:
