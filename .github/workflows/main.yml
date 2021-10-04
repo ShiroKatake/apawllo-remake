@@ -139,6 +139,7 @@ jobs:
           git lfs pull
           git add .
           git reset --hard
+          
       - name: Restore Library cache
         uses: actions/cache@v2
         with:
@@ -227,4 +228,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          release_id: ${{ steps.create_release.outputs.id }}
+          release_id: ${{ steps.release-draft.outputs.id }}
