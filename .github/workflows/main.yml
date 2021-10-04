@@ -229,7 +229,7 @@ jobs:
           asset_content_type: application/zip
           
   publishRelease:
-    needs: [deployWindows, deployWebGL, releaseDraft]
+    needs: [deployWebGL, uploadBuild, releaseDraft]
     name: Publish Release
     runs-on: ubuntu-latest
     steps:
