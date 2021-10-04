@@ -107,6 +107,8 @@ jobs:
             
       - name: Build into WebGL
         uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
           targetPlatform: WebGL
 
@@ -121,7 +123,7 @@ jobs:
     name: Build for Windows 🖥️
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Repo
         uses: actions/checkout@v2
 
       - name: Create LFS file list
@@ -151,6 +153,8 @@ jobs:
       
       - name: Build into Windows x64
         uses: game-ci/unity-builder@v2
+        env:
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
         with:
           targetPlatform: StandaloneWindows64
 
