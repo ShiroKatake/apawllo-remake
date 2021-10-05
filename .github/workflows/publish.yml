@@ -11,7 +11,9 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
   
 jobs:
- downloadBuilds:
+  downloadBuilds:
+    outputs:
+      matrix_platform: ${{ steps.output_matrix_platform.outputs.upload_url }}
     name: Download ${{ matrix.platform }}
     runs-on: ubuntu-latest
     strategy:
@@ -28,8 +30,10 @@ jobs:
           branch: master
           name: build-${{ matrix.platform }}
           path: build
+      - id: output_matrix_platform
+        run: echo "::set-output name=matrix_platform::${{ needs.downloadBuilds.outputs.matrix }}"
 
- publishBuilds:
+  publishBuilds:
     needs: downloadBuilds
     name: Deploy ${{ matrix.channel }}
     runs-on: ubuntu-latest
