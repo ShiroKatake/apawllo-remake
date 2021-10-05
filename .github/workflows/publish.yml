@@ -27,7 +27,6 @@ jobs:
           github_token: ${{secrets.GITHUB_TOKEN}}
           workflow: main.yml
           branch: master
-          event: push
           name: build-${{ matrix.platform }}
           path: build
 
