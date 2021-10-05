@@ -192,7 +192,7 @@ jobs:
       upload_url: ${{ steps.output_upload_url.outputs.upload_url }}
       tag_name: ${{ steps.output_tag_name.outputs.tag_name }}
       release_id: ${{ steps.output_release_id.outputs.release_id }}
-      html_url: ${{ steps.output_release_id.outputs.html_url }}
+      html_url: ${{ steps.output_html_url.outputs.html_url }}
     steps:
       - name: Draft a Release
         uses: release-drafter/release-drafter@master
