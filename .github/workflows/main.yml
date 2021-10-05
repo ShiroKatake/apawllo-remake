@@ -178,6 +178,7 @@ jobs:
   releaseDraft:
     needs: buildWindows
     name: Release Draft 📜
+    if: always()
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.output_upload_url.outputs.upload_url }}
