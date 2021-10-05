@@ -111,7 +111,7 @@ jobs:
 
   buildWindows:
     needs: testRunner
-    name: Build Windows x64 🖥️
+    name: Build Win x64 🖥️
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -202,7 +202,7 @@ jobs:
   
   uploadBuild:
     needs: [releaseDraft, buildWindows]
-    name: Upload Build to Draft 📦
+    name: Upload to Draft 📦
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
