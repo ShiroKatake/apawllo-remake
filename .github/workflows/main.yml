@@ -8,20 +8,9 @@ on:
     paths-ignore:
       - '.github/**'
 
-env:
-  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-
 jobs:
-  checksLicense:
-    name: Check for Unity license ✔️
-    runs-on: ubuntu-latest
-    steps:
-      - name: Fail - No license
-        if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
-        run: exit 1
-          
   testRunner:
-    name: Test in ${{ matrix.testMode }} ✨
+    name: ${{ matrix.testMode }} Test 🔎
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -63,7 +52,7 @@ jobs:
         id: testRunner
         with:
           testMode: ${{ matrix.testMode }}
-          checkName: ${{ matrix.testMode }} test results
+          checkName: ${{ matrix.testMode }} Test Results ✨
           githubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload test results
@@ -77,7 +66,6 @@ jobs:
     name: Build WebGL 🌐
     runs-on: ubuntu-latest
     steps:
-      - run: exit 1
       - name: Checkout repo
         uses: actions/checkout@v2
 
