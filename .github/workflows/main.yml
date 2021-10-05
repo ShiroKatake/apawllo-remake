@@ -265,7 +265,7 @@ jobs:
           avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894758305690452039/success_kid.png'
           title: 'New build status (${{ needs.releaseDraft.outputs.tag_name }}): SUCCESS!'
           description: | 
-            Release notes can be viewed [here](${{ needs.releaseDraft.outputs.html_url }})
+            Release notes can be viewed [here](https://github.com/ShiroKatake/apawllo-remake/releases/tag/${{ needs.releaseDraft.outputs.tag_name }})
             WebGL build can be played [here](https://shirokatake.github.io/apawllo-remake/)
           include-details: 'false'
           color-success: '#2eb886'
