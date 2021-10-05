@@ -9,8 +9,6 @@ on:
       - '.github/**'
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
-  ITCH_USERNAME: ${{ secrets.ITCH_USERNAME }}
-  ITCH_GAME_ID: ${{ secrets.ITCH_GAME_ID }}
   
 jobs:
  publishBuilds:
@@ -20,8 +18,11 @@ jobs:
       fail-fast: true
       matrix:
         platform:
-          - StandaloneWindows64
           - WebGL
+          - StandaloneWindows64
+        channel:
+          - webgl
+          - windows
     steps:
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
@@ -32,14 +33,13 @@ jobs:
           name: build-${{ matrix.platform }}
           path: build
 
-      - uses: KikimoraGames/itch-publish@v0.0.3
-        with:
-          butlerApiKey: ${{secrets.ITCH_API_KEY}}
-          gameData: ./build/${{ matrix.platform }}
-          itchUsername: ${{env.ITCH_USERNAME}}
-          itchGameId: ${{ env.ITCH_GAME_ID }}
-          buildChannel: ${{ matrix.channel }}
-          buildNumber: v0.1.0
+      - uses: josephbmanley/butler-publish-itchio-action@v1.0.2
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.ITCH_API_KEY }}
+          CHANNEL: ${{ matrix.channel }}
+          ITCH_GAME: ${{ secrets.ITCH_GAME_ID }}
+          ITCH_USER: ${{ secrets.ITCH_USERNAME }}
+          PACKAGE: build/${{ matrix.platform }}
 
   # notifyDiscord:
   #   needs: [releaseDraft, publishRelease]
