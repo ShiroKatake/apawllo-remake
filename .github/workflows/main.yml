@@ -192,6 +192,7 @@ jobs:
       upload_url: ${{ steps.output_upload_url.outputs.upload_url }}
       tag_name: ${{ steps.output_tag_name.outputs.tag_name }}
       release_id: ${{ steps.output_release_id.outputs.release_id }}
+      html_url: ${{ steps.output_release_id.outputs.html_url }}
     steps:
       - name: Draft a Release
         uses: release-drafter/release-drafter@master
@@ -204,6 +205,8 @@ jobs:
         run: echo "::set-output name=tag_name::${{ steps.release-draft.outputs.tag_name }}"
       - id: output_release_id
         run: echo "::set-output name=release_id::${{ steps.release-draft.outputs.id }}"
+      - id: output_html_url
+        run: echo "::set-output name=release_id::${{ steps.release-draft.outputs.html_url }}"
   
   uploadBuild:
     needs: [releaseDraft, buildWindows]
@@ -248,7 +251,7 @@ jobs:
           release_id: ${{ needs.releaseDraft.outputs.release_id }}
   
   notifyDiscord:
-    needs: publishRelease
+    needs: [releaseDraft, publishRelease]
     name: Notify on Discord 📢
     runs-on: ubuntu-latest
     steps:
@@ -260,9 +263,9 @@ jobs:
           discord-webhook: ${{ secrets.WEBHOOK_URL }}
           username: '${{ github.workflow }}'
           avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894758305690452039/success_kid.png'
-          title: 'New build status: {{STATUS}}!'
-          description: 'Status of build phases'
-          include-details: 'true'
+          title: 'New build status (${{ needs.releaseDraft.outputs.tag_name }}): SUCCESS!'
+          description: 'Release notes can be viewed [here](${{ needs.releaseDraft.outputs.html_url }})\nWebGL build can be played [here](https://shirokatake.github.io/apawllo-remake/)'
+          include-details: 'false'
           color-success: '#2eb886'
           
       - name: Notify Failure
@@ -273,7 +276,7 @@ jobs:
           discord-webhook: ${{ secrets.WEBHOOK_URL }}
           username: '${{ github.workflow }}'
           avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894760486439125042/explosion.png'
-          title: 'New build status: {{STATUS}} . . .'
+          title: 'New build status (${{ needs.releaseDraft.outputs.tag_name }}): FAILED . . .'
           description: 'Status of build phases'
           include-details: 'true'
           color-failure: '#a30200'
