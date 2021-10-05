@@ -257,7 +257,8 @@ jobs:
           username: '${{ github.workflow }}'
           avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894758305690452039/success_kid.png'
           title: 'New build status (${{ needs.releaseDraft.outputs.tag_name }}): SUCCESS!'
-          description: | 
+          description: |
+          
             📝 View [Release Notes](https://github.com/ShiroKatake/apawllo-remake/releases/tag/${{ needs.releaseDraft.outputs.tag_name }})
             
             🌐 Play [WebGL build](https://shirokatake.github.io/apawllo-remake/)
