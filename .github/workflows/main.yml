@@ -250,15 +250,15 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           release_id: ${{ needs.releaseDraft.outputs.release_id }}
-      - run: exit 1
 
   notifyDiscord:
     needs: [releaseDraft, publishRelease]
     name: Notify on Discord 📢
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - name: Notify Success
-        if: ${{ success() }}
+        if: ${{ needs.publishRelease.result == 'success' }}
         uses: nobrayner/discord-webhook@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -273,7 +273,7 @@ jobs:
           color-success: '#2eb886'
           
       - name: Notify Failure
-        if: ${{ failure() }}
+        if: ${{ needs.publishRelease.result != 'success' }}
         uses: nobrayner/discord-webhook@v1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
