@@ -25,8 +25,8 @@ jobs:
       - name: Upload Build
         uses: actions/upload-artifact@v2
         with:
-          name: build-${{ matrix.platform }}
-          path: build/${{ matrix.platform }}
+          name: Apawllo-v0.1.4.zip
+          path: Apawllo-v0.1.4.zip
           
   publishBuilds:
     needs: downloadBuilds
