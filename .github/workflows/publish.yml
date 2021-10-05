@@ -30,7 +30,7 @@ jobs:
           CHANNEL: html5
           ITCH_GAME: ${{ secrets.ITCH_GAME_ID }}
           ITCH_USER: ${{ secrets.ITCH_USERNAME }}
-          PACKAGE: build.zi
+          PACKAGE: build.zip
 
   publishWindows:
     name: Publish Win x64 Build
@@ -39,7 +39,7 @@ jobs:
       - name: Download artifact
         uses: dsaltares/fetch-gh-release-asset@0.06
         with:
-          file: Apawllo-v0.1.4.zip
+          file: Apawllo-v0.1.1.zip
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to Itch.io
         uses: josephbmanley/butler-publish-itchio-action@v1.0.2
@@ -48,7 +48,7 @@ jobs:
           CHANNEL: win
           ITCH_GAME: ${{ secrets.ITCH_GAME_ID }}
           ITCH_USER: ${{ secrets.ITCH_USERNAME }}
-          PACKAGE: Apawllo-v0.1.4.zip
+          PACKAGE: Apawllo-v0.1.1.zip
 
   # notifyDiscord:
   #   needs: [releaseDraft, publishRelease]
