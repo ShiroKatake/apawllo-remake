@@ -259,7 +259,9 @@ jobs:
           title: 'New build status (${{ needs.releaseDraft.outputs.tag_name }}): SUCCESS!'
           description: | 
             📝 View [Release Notes](https://github.com/ShiroKatake/apawllo-remake/releases/tag/${{ needs.releaseDraft.outputs.tag_name }})
+            
             🌐 Play [WebGL build](https://shirokatake.github.io/apawllo-remake/)
+            
             🖥️ Download [Win x64 build](https://github.com/ShiroKatake/apawllo-remake/releases/download/${{ needs.releaseDraft.outputs.tag_name }}/Apawllo-${{ needs.releaseDraft.outputs.tag_name }}.zip)
           include-details: 'false'
           color-success: '#2eb886'
