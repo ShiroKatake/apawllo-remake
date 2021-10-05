@@ -1,0 +1,79 @@
+name: Deploy to Itch.io 🚀
+
+on: 
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '.github/**'
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  
+jobs:
+ publishBuilds:
+    name: Deploy ${{ matrix.platform }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        platform:
+          - StandaloneWindows64
+          - WebGL
+    steps:
+      - name: Download artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          workflow: main.yml
+          workflow_conclusion: success
+          branch: master
+          event: push
+          name: build-${{ matrix.platform }}
+          path: build
+
+      - uses: KikimoraGames/itch-publish@v0.0.3
+        with:
+          butlerApiKey: ${{secrets.ITCH_API_KEY}}
+          gameData: ./build/${{ matrix.platform }}
+          itchUsername: ${{env.ITCH_USERNAME}}
+          itchGameId: ${{ env.ITCH_GAME_ID }}
+          buildChannel: ${{ matrix.channel }}
+          buildNumber: v0.1.0
+
+  # notifyDiscord:
+  #   needs: [releaseDraft, publishRelease]
+  #   name: Notify on Discord 📢
+  #   if: always()
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Notify Success
+  #       if: ${{ needs.publishRelease.result == 'success' }}
+  #       uses: nobrayner/discord-webhook@v1
+  #       with:
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+  #         discord-webhook: ${{ secrets.WEBHOOK_URL }}
+  #         username: '${{ github.workflow }}'
+  #         avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894758305690452039/success_kid.png'
+  #         title: 'New build status (${{ needs.releaseDraft.outputs.tag_name }}): SUCCESS!'
+  #         description: |
+  #           📝 View [Release Notes](https://github.com/ShiroKatake/apawllo-remake/releases/tag/${{ needs.releaseDraft.outputs.tag_name }})
+  #           \u200B
+  #           🌐 Play [WebGL build](https://shirokatake.github.io/apawllo-remake/)
+  #           \u200B
+  #           🖥️ Download [Win x64 build](https://github.com/ShiroKatake/apawllo-remake/releases/download/${{ needs.releaseDraft.outputs.tag_name }}/Apawllo-${{ needs.releaseDraft.outputs.tag_name }}.zip)
+  #         include-details: 'false'
+  #         color-success: '#2eb886'
+          
+  #     - name: Notify Failure
+  #       if: ${{ needs.publishRelease.result != 'success' }}
+  #       uses: nobrayner/discord-webhook@v1
+  #       with:
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+  #         discord-webhook: ${{ secrets.WEBHOOK_URL }}
+  #         username: '${{ github.workflow }}'
+  #         avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894760486439125042/explosion.png'
+  #         title: 'New build status (${{ needs.releaseDraft.outputs.tag_name }}): FAILED . . .'
+  #         description: 'Status of build phases'
+  #         include-details: 'true'
+  #         color-failure: '#a30200'
