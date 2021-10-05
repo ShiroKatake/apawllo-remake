@@ -7,7 +7,9 @@ on:
       - develop
     paths-ignore:
       - '.github/**'
-
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  
 jobs:
   testRunner:
     name: ${{ matrix.testMode }} Test 🔎
