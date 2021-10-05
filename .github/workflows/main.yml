@@ -108,7 +108,7 @@ jobs:
           path: build/WebGL
 
   buildWindows:
-    needs: releaseDraft
+    needs: testRunner
     name: Build Windows x64 🖥️
     runs-on: ubuntu-latest
     steps:
@@ -174,7 +174,7 @@ jobs:
           folder: build/WebGL
           
   releaseDraft:
-    needs: testRunner
+    needs: buildWindows
     name: Release Draft 📜
     runs-on: ubuntu-latest
     outputs:
