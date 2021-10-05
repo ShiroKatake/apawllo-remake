@@ -49,7 +49,7 @@ jobs:
           CHANNEL: ${{ matrix.channel }}
           ITCH_GAME: ${{ secrets.ITCH_GAME_ID }}
           ITCH_USER: ${{ secrets.ITCH_USERNAME }}
-          PACKAGE: build/${{ matrix.platform }}
+          PACKAGE: build/WebGL # ${{ needs.downloadBuilds.outputs.matrix_platform }}"
 
   # notifyDiscord:
   #   needs: [releaseDraft, publishRelease]
