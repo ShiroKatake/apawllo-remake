@@ -66,39 +66,34 @@ jobs:
           PACKAGE: Apawllo-${{ needs.getLatestRelease.outputs.latest_version }}.zip
           VERSION: v0.1.0 # ${{ needs.getLatestRelease.outputs.latest_version }}
 
-  # notifyDiscord:
-  #   needs: [releaseDraft, publishRelease]
-  #   name: Notify on Discord 📢
-  #   if: always()
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Notify Success
-  #       if: ${{ needs.publishRelease.result == 'success' }}
-  #       uses: nobrayner/discord-webhook@v1
-  #       with:
-  #         github-token: ${{ secrets.GITHUB_TOKEN }}
-  #         discord-webhook: ${{ secrets.WEBHOOK_URL }}
-  #         username: '${{ github.workflow }}'
-  #         avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894758305690452039/success_kid.png'
-  #         title: 'New build status (${{ needs.releaseDraft.outputs.tag_name }}): SUCCESS!'
-  #         description: |
-  #           📝 View [Release Notes](https://github.com/ShiroKatake/apawllo-remake/releases/tag/${{ needs.releaseDraft.outputs.tag_name }})
-  #           \u200B
-  #           🌐 Play [WebGL build](https://shirokatake.github.io/apawllo-remake/)
-  #           \u200B
-  #           🖥️ Download [Win x64 build](https://github.com/ShiroKatake/apawllo-remake/releases/download/${{ needs.releaseDraft.outputs.tag_name }}/Apawllo-${{ needs.releaseDraft.outputs.tag_name }}.zip)
-  #         include-details: 'false'
-  #         color-success: '#2eb886'
+  notifyDiscord:
+    needs: [publishWebGL, publishWindows]
+    name: Notify on Discord 📢
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Notify Success
+        if: ${{ needs.publishWebGL.result == 'success' &&  needs.publishWebGL.result == 'success' }}
+        uses: nobrayner/discord-webhook@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          discord-webhook: ${{ secrets.WEBHOOK_URL }}
+          username: '${{ github.workflow }}'
+          avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894758305690452039/success_kid.png'
+          title: 'New deployment status (${{ needs.releaseDraft.outputs.tag_name }}): SUCCESS!'
+          description: 🎮 Play on [itch.io](https://shirokatake.itch.io/apawllo)
+          include-details: 'false'
+          color-success: '#2eb886'
           
-  #     - name: Notify Failure
-  #       if: ${{ needs.publishRelease.result != 'success' }}
-  #       uses: nobrayner/discord-webhook@v1
-  #       with:
-  #         github-token: ${{ secrets.GITHUB_TOKEN }}
-  #         discord-webhook: ${{ secrets.WEBHOOK_URL }}
-  #         username: '${{ github.workflow }}'
-  #         avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894760486439125042/explosion.png'
-  #         title: 'New build status (${{ needs.releaseDraft.outputs.tag_name }}): FAILED . . .'
-  #         description: 'Status of build phases'
-  #         include-details: 'true'
-  #         color-failure: '#a30200'
+      - name: Notify Failure
+        if: ${{ needs.publishWebGL.result != 'success' &&  needs.publishWebGL.result != 'success' }}
+        uses: nobrayner/discord-webhook@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          discord-webhook: ${{ secrets.WEBHOOK_URL }}
+          username: '${{ github.workflow }}'
+          avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894760486439125042/explosion.png'
+          title: 'New deployment status (${{ needs.releaseDraft.outputs.tag_name }}): FAILED . . .'
+          description: 'Status of deployment phases'
+          include-details: 'true'
+          color-failure: '#a30200'
