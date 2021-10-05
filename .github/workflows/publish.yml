@@ -28,7 +28,6 @@ jobs:
           workflow: main.yml
           branch: master
           event: push
-          commit: ${{github.event.pull_request.head.sha}}
           name: build-${{ matrix.platform }}
           path: build
 
