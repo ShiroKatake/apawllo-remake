@@ -30,6 +30,7 @@ jobs:
           path: build
 
  publishBuilds:
+    needs: downloadBuilds
     name: Deploy ${{ matrix.channel }}
     runs-on: ubuntu-latest
     strategy:
