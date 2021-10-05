@@ -27,12 +27,6 @@ jobs:
         with:
           name: Apawllo-v0.1.4.zip
           path: Apawllo-v0.1.4.zip
-          
-  publishBuilds:
-    needs: downloadBuilds
-    name: Deploy Build to Itch
-    runs-on: ubuntu-latest
-    steps:
       - uses: josephbmanley/butler-publish-itchio-action@v1.0.2
         env:
           BUTLER_CREDENTIALS: ${{ secrets.ITCH_API_KEY }}
