@@ -11,8 +11,29 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
   
 jobs:
-  downloadBuilds:
-    name: Download Build from Release
+  publishWebGL:
+    name: Publish WebGL Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: build-webgl
+      - name: Zip Build
+        uses: TheDoctor0/zip-release@0.6.0
+        with:
+          type: 'zip'
+          filename: 'build.zip'
+      - name: Publish to Itch.io
+        uses: josephbmanley/butler-publish-itchio-action@v1.0.2
+        env:
+          BUTLER_CREDENTIALS: ${{ secrets.ITCH_API_KEY }}
+          CHANNEL: html5
+          ITCH_GAME: ${{ secrets.ITCH_GAME_ID }}
+          ITCH_USER: ${{ secrets.ITCH_USERNAME }}
+          PACKAGE: build.zi
+
+  publishWindows:
+    name: Publish Win x64 Build
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
@@ -20,20 +41,14 @@ jobs:
         with:
           file: Apawllo-v0.1.4.zip
           token: ${{ secrets.GITHUB_TOKEN }}
-      - id: output_matrix_platform
-        run: echo "::set-output name=matrix_platform::${{ needs.downloadBuilds.outputs.matrix }}"
-      - name: Upload Build
-        uses: actions/upload-artifact@v2
-        with:
-          name: Apawllo-v0.1.4.zip
-          path: Apawllo-v0.1.4.zip
-      - uses: josephbmanley/butler-publish-itchio-action@v1.0.2
+      - name: Publish to Itch.io
+        uses: josephbmanley/butler-publish-itchio-action@v1.0.2
         env:
           BUTLER_CREDENTIALS: ${{ secrets.ITCH_API_KEY }}
-          CHANNEL: html5
+          CHANNEL: win
           ITCH_GAME: ${{ secrets.ITCH_GAME_ID }}
           ITCH_USER: ${{ secrets.ITCH_USERNAME }}
-          PACKAGE: Apawllo-v0.1.4.zip # ${{ needs.downloadBuilds.outputs.matrix_platform }}"
+          PACKAGE: Apawllo-v0.1.4.zip
 
   # notifyDiscord:
   #   needs: [releaseDraft, publishRelease]
