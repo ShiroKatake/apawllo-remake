@@ -249,7 +249,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           release_id: ${{ needs.releaseDraft.outputs.release_id }}
-  
+      - run: exit 1
+
   notifyDiscord:
     needs: [releaseDraft, publishRelease]
     name: Notify on Discord 📢
