@@ -11,7 +11,20 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
   
 jobs:
+  getLatestRelease:
+    name: Get Latest Release
+    runs-on: ubuntu-latest
+    outputs:
+      latest_version: ${{ steps.latest_release.outputs.release }}
+    steps:
+      - uses: pozetroninc/github-action-get-latest-release@master
+        id: latest_release
+        with:
+          owner: ShiroKatake
+          repo: apawllo-remake
+
   publishWebGL:
+    needs: getLatestRelease
     name: Publish WebGL Build
     runs-on: ubuntu-latest
     steps:
@@ -31,15 +44,17 @@ jobs:
           ITCH_GAME: ${{ secrets.ITCH_GAME_ID }}
           ITCH_USER: ${{ secrets.ITCH_USERNAME }}
           PACKAGE: build.zip
+          VERSION: ${{ needs.getLatestRelease.outputs.latest_version }}
 
   publishWindows:
+    needs: getLatestRelease
     name: Publish Win x64 Build
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
         uses: dsaltares/fetch-gh-release-asset@0.06
         with:
-          file: Apawllo-v0.1.1.zip
+          file: Apawllo-${{ needs.getLatestRelease.outputs.latest_version }}.zip
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish to Itch.io
         uses: josephbmanley/butler-publish-itchio-action@v1.0.2
@@ -48,7 +63,8 @@ jobs:
           CHANNEL: win
           ITCH_GAME: ${{ secrets.ITCH_GAME_ID }}
           ITCH_USER: ${{ secrets.ITCH_USERNAME }}
-          PACKAGE: Apawllo-v0.1.1.zip
+          PACKAGE: Apawllo-${{ needs.getLatestRelease.outputs.latest_version }}.zip
+          VERSION: ${{ needs.getLatestRelease.outputs.latest_version }}
 
   # notifyDiscord:
   #   needs: [releaseDraft, publishRelease]
