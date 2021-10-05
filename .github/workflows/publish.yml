@@ -12,24 +12,14 @@ env:
   
 jobs:
   downloadBuilds:
-    outputs:
-      matrix_platform: ${{ steps.output_matrix_platform.outputs.upload_url }}
-    name: Download ${{ matrix.platform }}
+    name: Download Build from Release
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        platform:
-          - WebGL
-          - StandaloneWindows64
     steps:
       - name: Download artifact
-        uses: dawidd6/action-download-artifact@v2
+        uses: dsaltares/fetch-gh-release-asset@0.06
         with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
-          workflow: main.yml
-          branch: master
-          name: build-${{ matrix.platform }}
-          path: build
+          file: Apawllo-v0.1.4.zip
+          token: ${{ secrets.GITHUB_TOKEN }}
       - id: output_matrix_platform
         run: echo "::set-output name=matrix_platform::${{ needs.downloadBuilds.outputs.matrix }}"
       - name: Upload Build
@@ -40,21 +30,16 @@ jobs:
           
   publishBuilds:
     needs: downloadBuilds
-    name: Deploy ${{ matrix.channel }}
+    name: Deploy Build to Itch
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        channel:
-          - html5
-          - windows
     steps:
       - uses: josephbmanley/butler-publish-itchio-action@v1.0.2
         env:
           BUTLER_CREDENTIALS: ${{ secrets.ITCH_API_KEY }}
-          CHANNEL: ${{ matrix.channel }}
+          CHANNEL: html5
           ITCH_GAME: ${{ secrets.ITCH_GAME_ID }}
           ITCH_USER: ${{ secrets.ITCH_USERNAME }}
-          PACKAGE: build-WebGL.zip # ${{ needs.downloadBuilds.outputs.matrix_platform }}"
+          PACKAGE: Apawllo-v0.1.4.zip # ${{ needs.downloadBuilds.outputs.matrix_platform }}"
 
   # notifyDiscord:
   #   needs: [releaseDraft, publishRelease]
