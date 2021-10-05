@@ -40,11 +40,11 @@ jobs:
         uses: josephbmanley/butler-publish-itchio-action@v1.0.2
         env:
           BUTLER_CREDENTIALS: ${{ secrets.ITCH_API_KEY }}
-          CHANNEL: html5
+          CHANNEL: WebGL
           ITCH_GAME: ${{ secrets.ITCH_GAME_ID }}
           ITCH_USER: ${{ secrets.ITCH_USERNAME }}
           PACKAGE: build.zip
-          VERSION: ${{ needs.getLatestRelease.outputs.latest_version }}
+          VERSION: v0.1.0 # ${{ needs.getLatestRelease.outputs.latest_version }}
 
   publishWindows:
     needs: getLatestRelease
@@ -60,11 +60,11 @@ jobs:
         uses: josephbmanley/butler-publish-itchio-action@v1.0.2
         env:
           BUTLER_CREDENTIALS: ${{ secrets.ITCH_API_KEY }}
-          CHANNEL: win
+          CHANNEL: Win-64
           ITCH_GAME: ${{ secrets.ITCH_GAME_ID }}
           ITCH_USER: ${{ secrets.ITCH_USERNAME }}
           PACKAGE: Apawllo-${{ needs.getLatestRelease.outputs.latest_version }}.zip
-          VERSION: ${{ needs.getLatestRelease.outputs.latest_version }}
+          VERSION: v0.1.0 # ${{ needs.getLatestRelease.outputs.latest_version }}
 
   # notifyDiscord:
   #   needs: [releaseDraft, publishRelease]
