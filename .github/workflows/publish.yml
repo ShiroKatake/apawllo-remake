@@ -9,6 +9,8 @@ on:
       - '.github/**'
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  ITCH_USERNAME: ${{ secrets.ITCH_USERNAME }}
+  ITCH_GAME_ID: ${{ secrets.ITCH_GAME_ID }}
   
 jobs:
  publishBuilds:
