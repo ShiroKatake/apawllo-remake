@@ -32,7 +32,12 @@ jobs:
           path: build
       - id: output_matrix_platform
         run: echo "::set-output name=matrix_platform::${{ needs.downloadBuilds.outputs.matrix }}"
-
+      - name: Upload Build
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-${{ matrix.platform }}
+          path: build/${{ matrix.platform }}
+          
   publishBuilds:
     needs: downloadBuilds
     name: Deploy ${{ matrix.channel }}
@@ -40,7 +45,7 @@ jobs:
     strategy:
       matrix:
         channel:
-          - webgl
+          - html5
           - windows
     steps:
       - uses: josephbmanley/butler-publish-itchio-action@v1.0.2
