@@ -218,6 +218,7 @@ jobs:
         uses: TheDoctor0/zip-release@0.6.0
         with:
           type: 'zip'
+          path: ./build
           filename: 'build.zip'
           
       - name: Upload Build as Release Asset
