@@ -11,18 +11,14 @@ env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
   
 jobs:
- publishBuilds:
-    name: Deploy ${{ matrix.platform }}
+ downloadBuilds:
+    name: Download ${{ matrix.platform }}
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: true
       matrix:
         platform:
           - WebGL
           - StandaloneWindows64
-        channel:
-          - webgl
-          - windows
     steps:
       - name: Download artifact
         uses: dawidd6/action-download-artifact@v2
@@ -33,6 +29,15 @@ jobs:
           name: build-${{ matrix.platform }}
           path: build
 
+ publishBuilds:
+    name: Deploy ${{ matrix.channel }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        channel:
+          - webgl
+          - windows
+    steps:
       - uses: josephbmanley/butler-publish-itchio-action@v1.0.2
         env:
           BUTLER_CREDENTIALS: ${{ secrets.ITCH_API_KEY }}
