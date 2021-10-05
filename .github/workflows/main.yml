@@ -12,7 +12,7 @@ env:
   
 jobs:
   testRunner:
-    name: ${{ matrix.testMode }} Test 🔎
+    name: 🔎 ${{ matrix.testMode }} Test
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -65,7 +65,7 @@ jobs:
   
   buildWebGL:
     needs: testRunner
-    name: Build WebGL 🌐
+    name: 🌐 Build WebGL
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -111,7 +111,7 @@ jobs:
 
   buildWindows:
     needs: testRunner
-    name: Build Win x64 🖥️
+    name: 🖥️ Build Win x64
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -157,7 +157,7 @@ jobs:
           
   deployWebGL:
     needs: buildWebGL
-    name: Deploy WebGL 🚢
+    name: 🚢 Deploy WebGL
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -177,7 +177,7 @@ jobs:
           
   releaseDraft:
     needs: buildWindows
-    name: Release Draft 📜
+    name: 📜 Release Draft
     if: always()
     runs-on: ubuntu-latest
     outputs:
@@ -202,7 +202,7 @@ jobs:
   
   uploadBuild:
     needs: [releaseDraft, buildWindows]
-    name: Upload to Draft 📦
+    name: 📦 Upload to Draft
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repo
@@ -233,7 +233,7 @@ jobs:
           
   publishRelease:
     needs: [deployWebGL, releaseDraft, uploadBuild]
-    name: Publish Release 🚀
+    name: 🚀 Publish Release
     runs-on: ubuntu-latest
     steps:
       - uses: eregon/publish-release@v1
@@ -244,7 +244,7 @@ jobs:
 
   notifyDiscord:
     needs: [releaseDraft, publishRelease]
-    name: Notify on Discord 📢
+    name: 📢 Notify on Discord
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -258,10 +258,10 @@ jobs:
           avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894758305690452039/success_kid.png'
           title: 'New build status (${{ needs.releaseDraft.outputs.tag_name }}): SUCCESS!'
           description: |
-            📝 View [Release Notes](https://github.com/ShiroKatake/apawllo-remake/releases/tag/${{ needs.releaseDraft.outputs.tag_name }})
-            \u200B
+            📜 View [Release Notes](https://github.com/ShiroKatake/apawllo-remake/releases/tag/${{ needs.releaseDraft.outputs.tag_name }})
+            
             🌐 Play [WebGL build](https://shirokatake.github.io/apawllo-remake/)
-            \u200B
+            
             🖥️ Download [Win x64 build](https://github.com/ShiroKatake/apawllo-remake/releases/download/${{ needs.releaseDraft.outputs.tag_name }}/Apawllo-${{ needs.releaseDraft.outputs.tag_name }}.zip)
           include-details: 'false'
           color-success: '#2eb886'
@@ -278,4 +278,5 @@ jobs:
           description: 'Status of build phases'
           include-details: 'true'
           color-failure: '#a30200'
+          color-cancelled: '#a30200'
         
