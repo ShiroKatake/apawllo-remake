@@ -206,7 +206,7 @@ jobs:
       - id: output_release_id
         run: echo "::set-output name=release_id::${{ steps.release-draft.outputs.id }}"
       - id: output_html_url
-        run: echo "::set-output name=release_id::${{ steps.release-draft.outputs.html_url }}"
+        run: echo "::set-output name=html_url::${{ steps.release-draft.outputs.html_url }}"
   
   uploadBuild:
     needs: [releaseDraft, buildWindows]
@@ -264,7 +264,9 @@ jobs:
           username: '${{ github.workflow }}'
           avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894758305690452039/success_kid.png'
           title: 'New build status (${{ needs.releaseDraft.outputs.tag_name }}): SUCCESS!'
-          description: 'Release notes: ${{ needs.releaseDraft.outputs.html_url }} \n WebGL build can be played [here](https://shirokatake.github.io/apawllo-remake/)'
+          description: | 
+            Release notes can be viewed [here](${{ needs.releaseDraft.outputs.html_url }})
+            WebGL build can be played [here](https://shirokatake.github.io/apawllo-remake/)
           include-details: 'false'
           color-success: '#2eb886'
           
