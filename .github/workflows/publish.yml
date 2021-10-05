@@ -44,7 +44,7 @@ jobs:
           ITCH_GAME: ${{ secrets.ITCH_GAME_ID }}
           ITCH_USER: ${{ secrets.ITCH_USERNAME }}
           PACKAGE: build.zip
-          VERSION: v0.1.0 # ${{ needs.getLatestRelease.outputs.latest_version }}
+          VERSION: ${{ needs.getLatestRelease.outputs.latest_version }}
 
   publishWindows:
     needs: getLatestRelease
@@ -64,10 +64,10 @@ jobs:
           ITCH_GAME: ${{ secrets.ITCH_GAME_ID }}
           ITCH_USER: ${{ secrets.ITCH_USERNAME }}
           PACKAGE: Apawllo-${{ needs.getLatestRelease.outputs.latest_version }}.zip
-          VERSION: v0.1.0 # ${{ needs.getLatestRelease.outputs.latest_version }}
+          VERSION: ${{ needs.getLatestRelease.outputs.latest_version }}
 
   notifyDiscord:
-    needs: [publishWebGL, publishWindows]
+    needs: [getLatestRelease, publishWebGL, publishWindows]
     name: Notify on Discord 📢
     if: always()
     runs-on: ubuntu-latest
@@ -80,7 +80,7 @@ jobs:
           discord-webhook: ${{ secrets.WEBHOOK_URL }}
           username: '${{ github.workflow }}'
           avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894758305690452039/success_kid.png'
-          title: 'New deployment status (${{ needs.releaseDraft.outputs.tag_name }}): SUCCESS!'
+          title: 'New deployment status (${{ needs.getLatestRelease.outputs.latest_version }}): SUCCESS!'
           description: 🎮 Play on [itch.io](https://shirokatake.itch.io/apawllo)
           include-details: 'false'
           color-success: '#2eb886'
@@ -93,7 +93,7 @@ jobs:
           discord-webhook: ${{ secrets.WEBHOOK_URL }}
           username: '${{ github.workflow }}'
           avatar-url: 'https://media.discordapp.net/attachments/857447804977152000/894760486439125042/explosion.png'
-          title: 'New deployment status (${{ needs.releaseDraft.outputs.tag_name }}): FAILED . . .'
+          title: 'New deployment status (${{ needs.getLatestRelease.outputs.latest_version }}): FAILED . . .'
           description: 'Status of deployment phases'
           include-details: 'true'
           color-failure: '#a30200'
